@@ -1,5 +1,6 @@
-Starting Point
+Aukera
 =================
 
-This repo contains a collection of scripts and templates that can be used
-to quickly start work on a project
+Aukera is an online game created as my thesis project for
+the Interactive media specialist course at Fanshawe College.
+
