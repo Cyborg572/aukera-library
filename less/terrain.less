@@ -1,0 +1,45 @@
+.map {
+	font-size: 32px;
+	position: relative;
+	display:block; width: 15em; height: 8em;
+	border: 8px solid blue;
+
+	.tile {
+		position: absolute;
+		display: block; width: 1em; height: 1em;
+		background-color: green;
+		border: 0px solid brown;
+
+		// Tile positioning
+		&.x0 {left: 0em;}
+		&.x1 {left: 1em;}
+		&.x2 {left: 2em;}
+		&.x3 {left: 3em;}
+		&.x4 {left: 4em;}
+		&.x5 {left: 5em;}
+		&.x6 {left: 6em;}
+		&.x7 {left: 7em;}
+		&.x8 {left: 8em;}
+		&.x9 {left: 9em;}
+		&.x10 {left: 10em;}
+		&.x11 {left: 11em;}
+		&.x12 {left: 12em;}
+		&.x13 {left: 13em;}
+		&.x14 {left: 14em;}
+		&.y0 {bottom: 7em;}
+		&.y1 {bottom: 6em;}
+		&.y2 {bottom: 5em;}
+		&.y3 {bottom: 4em;}
+		&.y4 {bottom: 3em;}
+		&.y5 {bottom: 2em;}
+		&.y6 {bottom: 1em;}
+		&.y7 {bottom: 0em;}
+
+		// Height adjustments
+		&.height1 {
+			background: darkgreen;
+			border-bottom: 0.5em solid brown;
+		}
+
+	}
+}
