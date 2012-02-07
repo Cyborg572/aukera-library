@@ -49,14 +49,53 @@
 
 		// Variable declaration
 		var frag = document.createDocumentFragment(),
-		    width = this.data.size.x,
-		    height = this.data.size.y,
+		    width = this.data.size[0],
+		    height = this.data.size[1],
+		    layers = this.data.terrain,
+		    layerCount = this.data.terrain.length,
 		    tile,
-		    tileClasses,
+		    layer,
 		    loopX,
-		    loopY;
+		    loopY,
+		    loopZ;
 
-		
+		for (loopZ = 0; loopZ < layerCount; loopZ += 1) {
+
+			// Create a div for the current layer of the map
+			layer = document.createElement('div');
+
+			// Add appropriate layer classes
+			layer.className = [
+				'layer',
+				'layer' + loopZ
+			].join(' ');
+
+			for (loopX = 0; loopX < width; loopX += 1) {
+				for (loopY = 0; loopY < height; loopY += 1) {
+
+					// Create a div for the tile
+					tile = document.createElement('div');
+
+					// Add all the relevant classes
+					tile.className  = [
+						'tile',
+						'x' + loopX,
+						'y' + loopY,
+						'height' + layers[loopZ][loopX][loopY]
+					].join(' ');
+
+					// Add the tile to the layer
+					layer.appendChild(tile);
+
+				}
+			}
+
+			// Add the layer to the fragment
+			frag.appendChild(layer);
+
+		}
+
+		return frag;
 
 	};
 
