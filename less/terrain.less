@@ -3,12 +3,11 @@
 	position: relative;
 	display:block; width: 15em; height: 8em;
 	border: 8px solid blue;
+	background: @grass;
 
 	.tile {
 		position: absolute;
 		display: block; width: 1em; height: 1em;
-		background-color: green;
-		border: 0px solid brown;
 
 		// Tile positioning
 		&.x0 {left: 0em;}
@@ -37,19 +36,63 @@
 
 		// Block stylings
 		&.block {
-			width: 0.8em; height: 0.8em;
-			border: 0.1em solid black;
+			background: @earth;
+			// The cap
+			div {
+				position: absolute; right: 0; left: 0;
+				background: @grass;
+				border: 1px solid darken(@grass, 10%);
+			}
+			// Height adjustments
+			&.height-1 div { top: -0.5em; bottom: 0.5em; }
+			&.height-2 div { top: -1em; bottom: 1em; }
+			// Connections
+			&.connect-t div { border-top: none; }
+			&.connect-r div { border-right: none; }
+			&.connect-b div { border-bottom: none; }
+			&.connect-l div { border-left: none; }
+			// Experimental Shadows
+			/*&:before {
+				content: ' ';
+				position: absolute; left: 0; top: 1em;
+				display: block; width: 0; height: 0;
+				border-style: solid;
+				border-width: 0 1em 1em 0;
+				border-color: transparent darken(@grass, 5%) transparent;
+			}
+			&:after {
+				content: ' ';
+				position: absolute; left: 1em; top: 1em;
+				display: block; width: 0; height: 0;
+				border-style: solid;
+				border-width: 1em 0 0 1em;
+				border-color: transparent transparent transparent darken(@grass, 5%);
+			}*/
 		}
 
-		// Height adjustments
-		&.height1 {
-			background: darkgreen;
-			border-bottom: 0.5em solid brown;
+		// Ramps
+		&.ramp-W {
+			background: @earth;
+			div {
+				position: absolute; top: -0.5em; right: 0; bottom: 0.5em; left: 0;
+				background: green;
+				&:after {
+					content: ' ';
+					position: absolute; bottom: 0em;
+					display: block; width: 0; height: 0;
+					border-style: solid;
+					border-width: 0.5em 0 0 1em;
+					border-color: green transparent transparent @earth;
+				}
+				&:before {
+					content: ' ';
+					position: absolute; bottom: 1em;
+					display: block; width: 0; height: 0;
+					border-style: solid;
+					border-width: 0.5em 0 0 1em;
+					border-color: transparent transparent transparent green;
+				}
+			}
 		}
-		&.height2 {
-			background: darkgreen;
-			border-bottom: 1em solid brown;
-		}
-
 	}
 }
