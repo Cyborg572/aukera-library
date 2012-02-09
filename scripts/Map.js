@@ -54,7 +54,10 @@
 		    layers = this.data.terrain,
 		    layerCount = this.data.terrain.length,
 		    tile,
+		    tileClasses,
+		    tileType,
 		    layer,
+		    curL,
 		    loopX,
 		    loopY,
 		    loopZ;
@@ -70,19 +73,56 @@
 				'layer' + loopZ
 			].join(' ');
 
+			curL = layers[loopZ];
+
 			for (loopX = 0; loopX < width; loopX += 1) {
 				for (loopY = 0; loopY < height; loopY += 1) {
+
+					// Determine the tile type
+					tileType = curL[loopX][loopY];
+
+					// break out  if there is a not tile here
+					if (tileType === 0) {
+						continue;
+					}
 
 					// Create a div for the tile
 					tile = document.createElement('div');
 
-					// Add all the relevant classes
-					tile.className  = [
+					// Add all the basic classes
+					tileClasses  = [
 						'tile',
 						'x' + loopX,
 						'y' + loopY,
-						'height' + layers[loopZ][loopX][loopY]
-					].join(' ');
+					];
+
+					// Blocks
+					if (tileType === 1 || tileType === 2) {
+						tileClasses.push('block');
+						tileClasses.push('height' + tileType);
+					}
+
+					// Ramps
+					if (tileType === 'n'
+					 || tileType === 'e'
+					 || tileType === 's'
+					 || tileType === 'w' ) {
+						tileClasses.push('lowRamp');
+						tileClasses.push('ascend'+tileType);
+					}
+
+					// Ramps
+					if (tileType === 'N'
+					 || tileType === 'E'
+					 || tileType === 'S'
+					 || tileType === 'W' ) {
+						tileClasses.push('highRamp');
+						tileClasses.push('ascend'+tileType);
+					}
+
+
+					// Add the classes to the tile
+					tile.className = tileClasses.join(' ');
 
 					// Add the tile to the layer
 					layer.appendChild(tile);
