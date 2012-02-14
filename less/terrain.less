@@ -94,5 +94,102 @@
 				}
 			}
 		}
+		&.ramp-w {
+			background: @earth;
+			div {
+				position: absolute; top: -0em; right: 0; bottom: 0em; left: 0;
+				background: green;
+				&:after {
+					content: ' ';
+					position: absolute; bottom: 0em;
+					display: block; width: 0; height: 0;
+					border-style: solid;
+					border-width: 0.5em 0 0 1em;
+					border-color: green transparent transparent @earth;
+				}
+				&:before {
+					content: ' ';
+					position: absolute; bottom: 1em;
+					display: block; width: 0; height: 0;
+					border-style: solid;
+					border-width: 0.5em 0 0 1em;
+					border-color: transparent transparent transparent green;
+				}
+			}
+		}
+		&.ramp-E {
+			background: @earth;
+			div {
+				position: absolute; top: -0.5em; right: 0; bottom: 0.5em; left: 0;
+				background: green;
+				&:after {
+					content: ' ';
+					position: absolute; bottom: 0em;
+					display: block; width: 0; height: 0;
+					border-style: solid;
+					border-width: 0.5em 1em 0 0;
+					border-color: green @earth transparent transparent;
+				}
+				&:before {
+					content: ' ';
+					position: absolute; bottom: 1em;
+					display: block; width: 0; height: 0;
+					border-style: solid;
+					border-width: 0.5em 1em 0 0;
+					border-color: transparent green transparent transparent;
+				}
+			}
+		}
+		&.ramp-e {
+			background: @earth;
+			div {
+				position: absolute; top: -0em; right: 0; bottom: 0em; left: 0;
+				background: green;
+				&:after {
+					content: ' ';
+					position: absolute; bottom: 0em;
+					display: block; width: 0; height: 0;
+					border-style: solid;
+					border-width: 0.5em 1em 0 0;
+					border-color: green @earth transparent transparent;
+				}
+				&:before {
+					content: ' ';
+					position: absolute; bottom: 1em;
+					display: block; width: 0; height: 0;
+					border-style: solid;
+					border-width: 0.5em 1em 0 0;
+					border-color: transparent green transparent transparent;
+				}
+			}
+		}
+		&.ramp-N {
+			background: @earth;
+			div {
+				position: absolute; top: -1em; right: 0; bottom: 0.5em; left: 0;
+				background: green;
+			}
+		}
+		&.ramp-n {
+			background: @earth;
+			div {
+				position: absolute; top: -0.5em; right: 0; bottom: 0em; left: 0;
+				background: green;
+			}
+		}
+		&.ramp-S {
+			background: @earth;
+			div {
+				position: absolute; top: -0.5em; right: 0; bottom: 1em; left: 0;
+				background: green;
+			}
+		}
+		&.ramp-s {
+			background: @earth;
+			div {
+				position: absolute; top: 0; right: 0; bottom: 0.5em; left: 0;
+				background: green;
+			}
+		}
 	}
 }
