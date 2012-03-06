@@ -4,7 +4,8 @@
 
 	// Create a test map to use until more of this project is built
 	var testMap,
-	    mapObj;
+	    mapObj,
+	    game;
 	
 	testMap = {
 		name:    "Test Map",
@@ -33,5 +34,7 @@
 
 	mapObj = new auk.Map(testMap);
 	document.getElementById('map').appendChild(mapObj.renderTerrain());
+	game = new auk.Game(document.getElementById('map'));
+	game.init();
 
 }());
