@@ -6,9 +6,9 @@
  * ---------------------------------------------------------------------------
  */
 
-(function (auk, undefined) {
+(function (auk) {
 
-	"use strict;"
+	"use strict";
 
 	// "Global" variables
 	auk.modules = [];
@@ -25,7 +25,7 @@
 		this.actors = [];
 		this.display = display;
 
-	}
+	};
 
 	/*
 	 * Update function
@@ -44,8 +44,8 @@
 		}
 
 		// Run update again as soon as possible
-		setTimeout(function() {that.update()}, 0);
-	}
+		setTimeout(function() {that.update();}, 0);
+	};
 
 	/*
 	 * Init function
@@ -65,7 +65,7 @@
 		// Start the main loop
 		this.update();
 
-	}
+	};
 
 	/*
 	 * addActor
@@ -77,7 +77,7 @@
 	auk.Game.prototype.addActor = function (actor) {
 		this.actors.push(actor);
 		this.display.appendChild(actor.html);
-	}
+	};
 
 	/*
 	 * removeActor
@@ -88,6 +88,6 @@
 	 */
 	auk.Game.prototype.removeActor = function (actor) {
 		
-	}
+	};
 
 }(window.auk = window.auk || {}));

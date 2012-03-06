@@ -6,7 +6,7 @@
  * ---------------------------------------------------------------------------
  */
 
-(function (auk, undefined) {
+(function (auk) {
 
 	"use strict";
 
@@ -26,7 +26,7 @@
 	auk.Map = function (mapData) {
 
 		// Store the mapData object internally
-		this.data = mapData
+		this.data = mapData;
 
 		// Make some references to the import parts of the data
 		this.gps = this.data.gps;
@@ -93,7 +93,7 @@
 					tileClasses  = [
 						'tile',
 						'x' + loopX,
-						'y' + loopY,
+						'y' + loopY
 					];
 
 					// Blocks
@@ -109,17 +109,18 @@
 					}
 
 					// Ramps
-					if (tileType === 'n'
-					 || tileType === 'e'
-					 || tileType === 's'
-					 || tileType === 'w'
-					 || tileType === 'N'
-					 || tileType === 'E'
-					 || tileType === 'S'
-					 || tileType === 'W' ) {
+					if (
+					    tileType === 'n' ||
+					    tileType === 'e' ||
+					    tileType === 's' ||
+					    tileType === 'w' ||
+					    tileType === 'N' ||
+					    tileType === 'E' ||
+					    tileType === 'S' ||
+					    tileType === 'W'
+					) {
 						tileClasses.push('ramp-'+tileType);
 					}
-
 
 					// Add the classes to the tile
 					tile.className = tileClasses.join(' ');

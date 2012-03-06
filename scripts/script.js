@@ -1,4 +1,4 @@
-(function () {
+(function (auk) {
 
 	"use strict";
 
@@ -41,4 +41,4 @@
 	actor = new auk.Actor(0,0,0);
 	game.addActor(actor);
 
-}());
+}(window.auk = window.auk || {}));

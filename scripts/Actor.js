@@ -5,7 +5,7 @@
  * ---------------------------------------------------------------------------
  */
 
-(function (auk, undefined) {
+(function (auk) {
 
 	"use strict";
 
@@ -33,11 +33,11 @@
 		this.html = document.createElement('div');
 		this.html.id = "actor";
 
-	}
+	};
 
 	auk.Actor.prototype.update = function (game) {
 		this.html.style.webkitTransform = "translate3D("+this.x+"px, "+this.y+"px, "+this.z+"px)";
 		this.x += 1;
-	}
+	};
 
 }(window.auk = window.auk || {}));
