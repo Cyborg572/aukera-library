@@ -142,4 +142,22 @@
 
 	};
 
+	// ========================================================================
+	//	Map library init funtion
+	// =======================================================================
+
+	/*
+	 * Map.init
+	 *
+	 * Called during a Game objects init function to set up map support
+	 *
+	 * @param game: The game object to configure
+	 *
+	 */
+
+	auk.modules.push(auk.Map);
+
+	auk.Map.init = function (game) {
+	};
+
 }(window.auk = window.auk || {}));
