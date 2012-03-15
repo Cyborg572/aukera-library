@@ -40,7 +40,7 @@
 
 		// Run all the update functions
 		for (i = 0; i < actorCount; i += 1) {
-			this.actors[i].update(this);
+			this.actors[i].update();
 		}
 
 		// Run update again as soon as possible
@@ -75,6 +75,7 @@
 	 * @param actor: the actor to be added
 	 */
 	auk.Game.prototype.addActor = function (actor) {
+		actor.game = this;
 		this.actors.push(actor);
 		this.display.appendChild(actor.html);
 	};

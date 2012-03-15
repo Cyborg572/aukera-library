@@ -30,12 +30,15 @@
 		this.y = posy;
 		this.z = posz;
 
+		this.game = null;
+		this.updateTimer = null;
+
 		this.html = document.createElement('div');
 		this.html.id = "actor";
 
 	};
 
-	auk.Actor.prototype.update = function (game) {
+	auk.Actor.prototype.update = function () {
 		this.html.style.webkitTransform = "translate3D("+this.x+"px, "+this.y+"px, "+this.z+"px)";
 		this.x += 1;
 	};
