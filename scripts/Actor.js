@@ -38,9 +38,23 @@
 
 	};
 
+	/*
+	 * auk.Actor#update()
+	 * 
+	 * Does the processing the actor needs to do every frame.
+	 * 
+	 * @param delay: the number of milliseconds to wait
+	 */
 	auk.Actor.prototype.update = function () {
-		this.html.style.webkitTransform = "translate3D("+this.x+"px, "+this.y+"px, "+this.z+"px)";
-		this.x += 1;
+		// Make a copy of this for callbacks
+		var self = this;
+
+		// Apply the physics logic
+		self.x += 1;
+
+		// Render the element in it's new location'
+		self.html.style.webkitTransform = "translate3D("+self.x+"px, "+self.y+"px, "+self.z+"px)";
+
 	};
 
 }(window.auk = window.auk || {}));
