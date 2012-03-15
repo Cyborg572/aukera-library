@@ -44,7 +44,7 @@
 		}
 
 		// Run update again as soon as possible
-		setTimeout(function() {that.update();}, 0);
+		setTimeout(function() {that.update();}, 30);
 	};
 
 	/*
