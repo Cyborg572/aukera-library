@@ -123,7 +123,6 @@
 	 * this library needs in order to function.
 	 */
 	auk.Keybinding.init = function () {
-		console.log('keyboard init');
 		window.onkeydown = keyHandler;
 		window.onkeyup = keyHandler;
 	};
