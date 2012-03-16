@@ -26,13 +26,18 @@
 
 	auk.Actor = function (posx, posy, posz) {
 
+		// Position the actor
 		this.x = posx;
 		this.y = posy;
 		this.z = posz;
 
+		// Game integration
 		this.game = null;
-		this.updateTimer = null;
 
+		// feature mixin support
+		this.updateSteps = [];
+
+		// Attach the HTML
 		this.html = document.createElement('div');
 		this.html.id = "actor";
 
@@ -47,14 +52,35 @@
 	 */
 	auk.Actor.prototype.update = function () {
 		// Make a copy of this for callbacks
-		var self = this;
+		var self = this,
+		    steps = this.updateSteps,
+		    sCount = steps.length,
+		    i;
 
-		// Apply the physics logic
-		self.x += 1;
+		// Apply the features
+		for (i = 0; i < sCount; i += 1) {
+			steps[i].call(this);
+		}
 
 		// Render the element in it's new location'
 		self.html.style.webkitTransform = "translate3D("+self.x+"px, "+self.y+"px, "+self.z+"px)";
 
+	};
+
+	/*
+	 * auk.Actor#add();
+	 * 
+	 * Adds features to the object by calling the feature's addTo function on
+	 * this object. using add() on the actor allows chaining.
+	 * 
+	 * @param feature: the feature to add
+	 * @param options: An options object to pass to the addTo function.
+	 */
+	auk.Actor.prototype.add = function (feature, options) {
+		if (feature.addTo) {
+			feature.addTo(this, options);
+		}
+		return this;
 	};
 
 }(window.auk = window.auk || {}));
