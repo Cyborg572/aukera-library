@@ -65,14 +65,18 @@
 	 *             Key code.
 	 */
 	auk.Keybinding = function (keymap) {
-		var mapLength = keymap.length,
-		    key;
+		var key;
 
 		// Attach the keymap to the object
 		this.keymap = keymap;
 
 		// Initialize the state object
 		this.states = {};
+		for (key in keymap) {
+			if (keymap.hasOwnProperty(key)) {
+				this.states[key] = false;
+			}
+		}
 
 		// Add this binding to the list
 		bindings.push(this);
@@ -110,6 +114,19 @@
 		if (this.getState(state) !== value) {
 			this.states[state] = value;
 		}
+	};
+
+	/*
+	 * auk.Keybinding#addTo();
+	 * 
+	 * Adds this keybinding object to the specified actor
+	 * 
+	 * @param actor: The actor that will receive this feature
+	 */
+	auk.Keybinding.prototype.addTo = function (actor) {
+		// Create a controller slot on the actor object and put this controller
+		// there.
+		actor.controller = this;
 	};
 
 	// =======================================================================
