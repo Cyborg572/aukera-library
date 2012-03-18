@@ -36,6 +36,31 @@
 		actor.updateSteps.push(this);
 	};
 
+	// Jump Feature
+	p.jump = function () {
+		if (this.controller.getState('jump') && !this.jumping) {
+			this.z += this.jumpStrength;
+			console.log('atempting jump');
+		}
+		if ((this.z > 0 && !this.controller.getState('jump')) || this.z > 33) {
+			this.jumping = true;
+		}
+		if (this.z > 0) {
+			this.z -= 1;
+		} else {
+			this.z = 0;
+			this.jumping = false;
+		}
+	};
+
+	p.jump.addTo = function (actor, options) {
+		if (!options.power) {options.power = 3;}
+		actor.jumpStrength = options.power;
+		actor.jumping = false;
+		actor.updateSteps.push(this);
+		console.log('adding jump');
+	};
+
 	// Store p as auk.physics
 	auk.physics = p;
 
