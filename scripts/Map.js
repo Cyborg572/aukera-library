@@ -53,6 +53,8 @@
 		    height = this.data.size[1],
 		    terrain = this.data.terrain,
 		    tile,
+		    tileCap,
+		    tileWall,
 		    tileClasses,
 		    x,
 		    y,
@@ -61,40 +63,48 @@
 		for (x = 0; x < width; x += 1) {
 			for (y = 0; y < height; y += 1) {
 
-				// Determine the tile type
+				// Determine the tiles height
 				z = terrain[x][y];
 
-				// break out  if there is a not tile here
+				// break out  if there is not a tile here
 				if (z === 0) {
 					continue;
 				}
 
-				// Create a div for the tile
+				// Create a div for the tile and the cap
 				tile = document.createElement('div');
+				tileCap = document.createElement('div');
+				// Put the cap into the tile
+				tile.appendChild(tileCap);
+
+				// Adjust the styles to position the tiles
+				tile.style.left = x + 'em';
+				tile.style.top = y + 'em';
+				tile.style.zIndex = y;
+				tileCap.style.top = '-' + (z/2) + 'em';
+				tileCap.style.bottom = (z/2) + 'em';
 
 				// Add all the basic classes
-				tileClasses  = [
-					'tile',
-					'block',
-					'x' + x,
-					'y' + y,
-					'height-' + z
-				];
-
+				tileClasses  = ['tile'];
 				// Add classes for tile borders
 				tileClasses.push(
-					terrain[x][y-1] >= z ? 'connect-t' : '',
-					terrain[x+1][y] >= z ? 'connect-r' : '',
-					terrain[x][y+1] >= z ? 'connect-b' : '',
-					terrain[x-1][y] >= z ? 'connect-l' : ''
+					terrain[x][y-1] === z ? 'connect-t' : '',
+					terrain[x+1][y] === z ? 'connect-r' : '',
+					terrain[x][y+1] === z ? 'connect-b' : '',
+					terrain[x-1][y] === z ? 'connect-l' : ''
 				);
+
+				// Add a wall div if the bottom face of the tile is visible.
+				if (terrain[x][y+1] < z) {
+					tileWall = document.createElement('div');
+					tileWall.className = 'wall';
+					tile.appendChild(tileWall);
+					tileWall.style.height = (z/2) + 'em';
+				}
 
 				// Add the classes to the tile
 				tile.className = tileClasses.join(' ');
-
-				// Throw an extra div into the tile
-				tile.appendChild(document.createElement('div'));
-
+				tileCap.className = 'cap';
 				// Add the tile to the layer
 				frag.appendChild(tile);
 
