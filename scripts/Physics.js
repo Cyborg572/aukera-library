@@ -47,7 +47,7 @@
 			this.vector.add({x:0, y:0, z:this.jumpStrength});
 		} else if(this.z > 0) {
 			this.vector.add({x:0, y:0, z:-1});
-		} else if (this.z === 0) {
+		} else if (this.z <= 0) {
 			this.vector.add({x:0, y:0, z:-this.vector.z});
 		}
 	};
