@@ -51,92 +51,70 @@
 		var frag = document.createDocumentFragment(),
 		    width = this.data.size[0],
 		    height = this.data.size[1],
-		    layers = this.data.terrain,
-		    layerCount = this.data.terrain.length,
+		    terrain = this.data.terrain,
 		    tile,
 		    tileClasses,
 		    tileType,
-		    layer,
-		    curL,
 		    loopX,
-		    loopY,
-		    loopZ;
+		    loopY;
 
-		for (loopZ = 0; loopZ < layerCount; loopZ += 1) {
+		for (loopX = 0; loopX < width; loopX += 1) {
+			for (loopY = 0; loopY < height; loopY += 1) {
 
-			// Create a div for the current layer of the map
-			layer = document.createElement('div');
+				// Determine the tile type
+				tileType = terrain[loopX][loopY];
 
-			// Add appropriate layer classes
-			layer.className = [
-				'layer',
-				'layer' + loopZ
-			].join(' ');
-
-			curL = layers[loopZ];
-
-			for (loopX = 0; loopX < width; loopX += 1) {
-				for (loopY = 0; loopY < height; loopY += 1) {
-
-					// Determine the tile type
-					tileType = curL[loopX][loopY];
-
-					// break out  if there is a not tile here
-					if (tileType === 0) {
-						continue;
-					}
-
-					// Create a div for the tile
-					tile = document.createElement('div');
-
-					// Add all the basic classes
-					tileClasses  = [
-						'tile',
-						'x' + loopX,
-						'y' + loopY
-					];
-
-					// Blocks
-					if (tileType === 1 || tileType === 2) {
-						tileClasses.push('block');
-						tileClasses.push('height-' + tileType);
-						tileClasses.push(
-							curL[loopX][loopY-1] >= tileType ? 'connect-t' : '',
-							curL[loopX+1][loopY] >= tileType ? 'connect-r' : '',
-							curL[loopX][loopY+1] >= tileType ? 'connect-b' : '',
-							curL[loopX-1][loopY] >= tileType ? 'connect-l' : ''
-						);
-					}
-
-					// Ramps
-					if (
-					    tileType === 'n' ||
-					    tileType === 'e' ||
-					    tileType === 's' ||
-					    tileType === 'w' ||
-					    tileType === 'N' ||
-					    tileType === 'E' ||
-					    tileType === 'S' ||
-					    tileType === 'W'
-					) {
-						tileClasses.push('ramp-'+tileType);
-					}
-
-					// Add the classes to the tile
-					tile.className = tileClasses.join(' ');
-
-					// Throw an extra div into the tile
-					tile.appendChild(document.createElement('div'));
-
-					// Add the tile to the layer
-					layer.appendChild(tile);
-
+				// break out  if there is a not tile here
+				if (tileType === 0) {
+					continue;
 				}
+
+				// Create a div for the tile
+				tile = document.createElement('div');
+
+				// Add all the basic classes
+				tileClasses  = [
+					'tile',
+					'x' + loopX,
+					'y' + loopY
+				];
+
+				// Blocks
+				if (tileType === 1 || tileType === 2) {
+					tileClasses.push('block');
+					tileClasses.push('height-' + tileType);
+					tileClasses.push(
+						terrain[loopX][loopY-1] >= tileType ? 'connect-t' : '',
+						terrain[loopX+1][loopY] >= tileType ? 'connect-r' : '',
+						terrain[loopX][loopY+1] >= tileType ? 'connect-b' : '',
+						terrain[loopX-1][loopY] >= tileType ? 'connect-l' : ''
+					);
+				}
+
+				// Ramps
+				if (
+				    tileType === 'n' ||
+				    tileType === 'e' ||
+				    tileType === 's' ||
+				    tileType === 'w' ||
+				    tileType === 'N' ||
+				    tileType === 'E' ||
+				    tileType === 'S' ||
+				    tileType === 'W'
+				) {
+					tileClasses.push('ramp-'+tileType);
+				}
+
+				// Add the classes to the tile
+				tile.className = tileClasses.join(' ');
+
+				// Throw an extra div into the tile
+				tile.appendChild(document.createElement('div'));
+
+				// Add the tile to the layer
+				frag.appendChild(tile);
+
 			}
-
-			// Add the layer to the fragment
-			frag.appendChild(layer);
-
 		}
 
 		return frag;
