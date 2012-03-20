@@ -91,20 +91,6 @@
 					);
 				}
 
-				// Ramps
-				if (
-				    tileType === 'n' ||
-				    tileType === 'e' ||
-				    tileType === 's' ||
-				    tileType === 'w' ||
-				    tileType === 'N' ||
-				    tileType === 'E' ||
-				    tileType === 'S' ||
-				    tileType === 'W'
-				) {
-					tileClasses.push('ramp-'+tileType);
-				}
-
 				// Add the classes to the tile
 				tile.className = tileClasses.join(' ');
 
