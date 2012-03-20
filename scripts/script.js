@@ -38,7 +38,17 @@
 	game = new auk.Game(document.getElementById('map'));
 	game.init();
 
-	actor = new auk.Actor(0,0,0);
-	game.addActor(actor);
+	game.addActor(
+		(new auk.Actor(100,100,30))
+		.add(new auk.Keybinding({
+			87 : 'up',
+			68 : 'right',
+			83 : 'down',
+			65 : 'left',
+			32 : 'jump'
+		}))
+		.add(auk.physics.jump, {power: 10})
+		.add(auk.physics.motor, {speed: 2})
+	);
 
 }(window.auk = window.auk || {}));
