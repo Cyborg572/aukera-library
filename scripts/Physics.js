@@ -16,49 +16,46 @@
 	// The motor feature
 	p.motor = function () {
 		if (this.controller.getState('up')) {
-			this.y -= this.speed;
+			this.vector.add({x:0, y: -this.speed, z:0});
 		}
 		if (this.controller.getState('right')) {
-			this.x += this.speed;
+			this.vector.add({x:this.speed, y:0, z:0});
 		}
 		if (this.controller.getState('down')) {
-			this.y += this.speed;
+			this.vector.add({x:0, y:this.speed, z:0});
 		}
 		if (this.controller.getState('left')) {
-			this.x -= this.speed;
+			this.vector.add({x: -this.speed, y:0, z:0});
 		}
+		this.vector.subtract({x: this.vector.x/3, y: this.vector.y/3, z:0});
+		this.x += this.vector.x;
+		this.y += this.vector.y;
+		this.z += this.vector.z;
 	};
 
 	// Adds the motor feature to actors.
 	p.motor.addTo = function (actor, options) {
 		if (!options.speed) {options.speed = 5;}
 		actor.speed = options.speed;
+		actor.vector = new auk.Vector([0, 0, 0], options.speed);
 		actor.updateSteps.push(this);
 	};
 
 	// Jump Feature
 	p.jump = function () {
-		if (this.controller.getState('jump') && !this.jumping) {
-			this.z += this.jumpStrength;
-			console.log('atempting jump');
-		}
-		if ((this.z > 0 && !this.controller.getState('jump')) || this.z > 33) {
-			this.jumping = true;
-		}
-		if (this.z > 0) {
-			this.z -= 1;
-		} else {
-			this.z = 0;
-			this.jumping = false;
+		if (this.controller.getState('jump') && this.z <= 0) {
+			this.vector.add({x:0, y:0, z:this.jumpStrength});
+		} else if(this.z > 0) {
+			this.vector.add({x:0, y:0, z:-1});
+		} else if (this.z === 0) {
+			this.vector.add({x:0, y:0, z:-this.vector.z});
 		}
 	};
 
 	p.jump.addTo = function (actor, options) {
 		if (!options.power) {options.power = 3;}
 		actor.jumpStrength = options.power;
-		actor.jumping = false;
 		actor.updateSteps.push(this);
-		console.log('adding jump');
 	};
 
 	// Store p as auk.physics
