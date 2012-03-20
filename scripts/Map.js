@@ -54,18 +54,18 @@
 		    terrain = this.data.terrain,
 		    tile,
 		    tileClasses,
-		    tileType,
-		    loopX,
-		    loopY;
+		    x,
+		    y,
+		    z;
 
-		for (loopX = 0; loopX < width; loopX += 1) {
-			for (loopY = 0; loopY < height; loopY += 1) {
+		for (x = 0; x < width; x += 1) {
+			for (y = 0; y < height; y += 1) {
 
 				// Determine the tile type
-				tileType = terrain[loopX][loopY];
+				z = terrain[x][y];
 
 				// break out  if there is a not tile here
-				if (tileType === 0) {
+				if (z === 0) {
 					continue;
 				}
 
@@ -75,21 +75,19 @@
 				// Add all the basic classes
 				tileClasses  = [
 					'tile',
-					'x' + loopX,
-					'y' + loopY
+					'block',
+					'x' + x,
+					'y' + y,
+					'height-' + z
 				];
 
-				// Blocks
-				if (tileType === 1 || tileType === 2) {
-					tileClasses.push('block');
-					tileClasses.push('height-' + tileType);
-					tileClasses.push(
-						terrain[loopX][loopY-1] >= tileType ? 'connect-t' : '',
-						terrain[loopX+1][loopY] >= tileType ? 'connect-r' : '',
-						terrain[loopX][loopY+1] >= tileType ? 'connect-b' : '',
-						terrain[loopX-1][loopY] >= tileType ? 'connect-l' : ''
-					);
-				}
+				// Add classes for tile borders
+				tileClasses.push(
+					terrain[x][y-1] >= z ? 'connect-t' : '',
+					terrain[x+1][y] >= z ? 'connect-r' : '',
+					terrain[x][y+1] >= z ? 'connect-b' : '',
+					terrain[x-1][y] >= z ? 'connect-l' : ''
+				);
 
 				// Add the classes to the tile
 				tile.className = tileClasses.join(' ');
