@@ -77,26 +77,26 @@
 				tile.style.left = x + 'em';
 				tile.style.top = y + 'em';
 				tile.style.zIndex = y;
-				tileCap.style.top = '-' + z + 'px';
-				tileCap.style.bottom = z + 'px';
+				tileCap.style.top = '-' + (z/2) + 'em';
+				tileCap.style.bottom = (z/2) + 'em';
 
 				// Add all the basic classes
 				tileClasses  = ['tile'];
 
 				// Add classes for tile borders
 				tileClasses.push(
-					m.abs(z - (y > 0 ? terrain[x][y-1] : 0)) < 1 ? 'connect-t' : '',
-					m.abs(z - (x < width-1 ? terrain[x+1][y] : 0)) < 1 ? 'connect-r' : '',
-					m.abs(z - (y < height-1 ? terrain[x][y+1] : 0)) < 1 ? 'connect-b' : '',
-					m.abs(z - (x > 0 ? terrain[x-1][y] : 0)) < 1 ? 'connect-l' : ''
+					(y > 0 ? terrain[x][y-1] : 0) === z ? 'connect-t' : '',
+					(x < width-1 ? terrain[x+1][y] : 0) === z ? 'connect-r' : '',
+					(y < height-1 ? terrain[x][y+1] : 0) === z ? 'connect-b' : '',
+					(x > 0 ? terrain[x-1][y] : 0) === z ? 'connect-l' : ''
 				);
 
 				// Add a wall div if the bottom face of the tile is visible.
-				if (z - terrain[x][y+1] > 0) {
+				if (terrain[x][y+1] < z) {
 					tileWall = document.createElement('div');
 					tileWall.className = 'wall';
 					tile.appendChild(tileWall);
-					tileWall.style.height = z + 'px';
+					tileWall.style.height = (z/2) + 'em';
 				}
 
 				// Add the classes to the tile
