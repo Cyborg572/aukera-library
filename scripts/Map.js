@@ -81,25 +81,25 @@
 				tile.style.left = x + 'em';
 				tile.style.top = y + 'em';
 				tile.style.zIndex = y;
-				tileCap.style.top = '-' + (z/2) + 'em';
-				tileCap.style.bottom = (z/2) + 'em';
+				tileCap.style.top = '-' + z + 'px';
+				tileCap.style.bottom = z + 'px';
 
 				// Add all the basic classes
 				tileClasses  = ['tile'];
 				// Add classes for tile borders
 				tileClasses.push(
-					terrain[x][y-1] === z ? 'connect-t' : '',
-					terrain[x+1][y] === z ? 'connect-r' : '',
-					terrain[x][y+1] === z ? 'connect-b' : '',
-					terrain[x-1][y] === z ? 'connect-l' : ''
+					Math.abs(z - terrain[x][y-1]) < 5 ? 'connect-t' : '',
+					Math.abs(z - terrain[x+1][y]) < 5 ? 'connect-r' : '',
+					Math.abs(z - terrain[x][y+1]) < 5 ? 'connect-b' : '',
+					Math.abs(z - terrain[x-1][y]) < 5 ? 'connect-l' : ''
 				);
 
 				// Add a wall div if the bottom face of the tile is visible.
-				if (terrain[x][y+1] < z) {
+				if (z - terrain[x][y+1] > 4) {
 					tileWall = document.createElement('div');
 					tileWall.className = 'wall';
 					tile.appendChild(tileWall);
-					tileWall.style.height = (z/2) + 'em';
+					tileWall.style.height = z + 'px';
 				}
 
 				// Add the classes to the tile
