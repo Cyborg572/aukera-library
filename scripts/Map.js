@@ -49,6 +49,7 @@
 
 		// Variable declaration
 		var frag = document.createDocumentFragment(),
+		    m = Math,
 		    width = this.data.size[0],
 		    height = this.data.size[1],
 		    terrain = this.data.terrain,
@@ -66,11 +67,6 @@
 				// Determine the tiles height
 				z = terrain[x][y];
 
-				// break out  if there is not a tile here
-				if (z === 0) {
-					continue;
-				}
-
 				// Create a div for the tile and the cap
 				tile = document.createElement('div');
 				tileCap = document.createElement('div');
@@ -86,16 +82,17 @@
 
 				// Add all the basic classes
 				tileClasses  = ['tile'];
+
 				// Add classes for tile borders
 				tileClasses.push(
-					Math.abs(z - terrain[x][y-1]) < 5 ? 'connect-t' : '',
-					Math.abs(z - terrain[x+1][y]) < 5 ? 'connect-r' : '',
-					Math.abs(z - terrain[x][y+1]) < 5 ? 'connect-b' : '',
-					Math.abs(z - terrain[x-1][y]) < 5 ? 'connect-l' : ''
+					m.abs(z - (y > 0 ? terrain[x][y-1] : 0)) < 1 ? 'connect-t' : '',
+					m.abs(z - (x < width-1 ? terrain[x+1][y] : 0)) < 1 ? 'connect-r' : '',
+					m.abs(z - (y < height-1 ? terrain[x][y+1] : 0)) < 1 ? 'connect-b' : '',
+					m.abs(z - (x > 0 ? terrain[x-1][y] : 0)) < 1 ? 'connect-l' : ''
 				);
 
 				// Add a wall div if the bottom face of the tile is visible.
-				if (z - terrain[x][y+1] > 4) {
+				if (z - terrain[x][y+1] > 0) {
 					tileWall = document.createElement('div');
 					tileWall.className = 'wall';
 					tile.appendChild(tileWall);
