@@ -85,14 +85,14 @@
 
 				// Add classes for tile borders
 				tileClasses.push(
-					(y > 0 ? terrain[x][y-1] : 0) === z ? 'connect-t' : '',
+					(terrain[x][y-1] || 0) === z ? 'connect-t' : '',
 					(x < width-1 ? terrain[x+1][y] : 0) === z ? 'connect-r' : '',
-					(y < height-1 ? terrain[x][y+1] : 0) === z ? 'connect-b' : '',
+					(terrain[x][y+1] || 0) === z ? 'connect-b' : '',
 					(x > 0 ? terrain[x-1][y] : 0) === z ? 'connect-l' : ''
 				);
 
 				// Add a wall div if the bottom face of the tile is visible.
-				if (terrain[x][y+1] < z) {
+				if (terrain[x][y+1] || 0 < z) {
 					tileWall = document.createElement('div');
 					tileWall.className = 'wall';
 					tile.appendChild(tileWall);
