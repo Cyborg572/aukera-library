@@ -68,11 +68,13 @@
 				tile.appendChild(tileCap);
 
 				// Adjust the styles to position the tiles
-				tile.style.left = x + 'em';
-				tile.style.top = y + 'em';
-				tile.style.zIndex = y;
-				tileCap.style.top = (-z/2) + 'em';
-				tileCap.style.bottom = (z/2) + 'em';
+				//tile.style.left = x + 'em';
+				//tile.style.top = y + 'em';
+				//tile.style.zIndex = y;
+				//tileCap.style.top = (-z/2) + 'em';
+				//tileCap.style.bottom = (z/2) + 'em';
+				tile.style.webkitTransform = "translate3D("+x+"em, "+y+"em, 0px)";
+				tileCap.style.webkitTransform = "translate3D(0px, 0px, "+z+"px)";
 
 				// Add all the basic classes
 				tileClasses  = ['tile'];

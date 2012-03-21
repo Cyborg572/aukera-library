@@ -1,17 +1,26 @@
+body {
+	-webkit-perspective: 700px;
 .map {
 	font-size: 32px;
+	margin:0 auto;
 	position: relative;
 	display:block; width: 15em; height: 8em;
 	border: 8px solid blue;
 	//background: @grass;
+	-webkit-transform: translate3d(0, 256px, 0) rotateX(90deg);
+	-webkit-backface-visibility: hidden;
+	-webkit-transform-style: ~"preserve-3d";
+}
 
 	.tile {
 		position: absolute;
 		display: block; width: 1em; height: 1em;
-		background: none;
+		-webkit-backface-visibility: hidden;
+		-webkit-transform-style: ~"preserve-3d";
 		// The cap
 		.cap {
-			position: absolute; right: 0; left: 0;
+			position: absolute; //right: 0; left: 0;
+			width: 1em; height: 1em;
 			background: @grass;
 			border: 1px solid darken(@grass, 10%);
 		}
@@ -21,7 +30,9 @@
 		&.connect-b .cap { border-bottom: none; }
 		&.connect-l .cap { border-left: none; }
 		.wall {
-			position:absolute; right: 0; left: 0; bottom: 0; top: 0em;
+			position:absolute; right: 0; left: 0; bottom: 0; top: 0;
+			width: 1em;
+			-webkit-transform: rotateX(90deg);
 			background: @earth;
 		}
 	}
