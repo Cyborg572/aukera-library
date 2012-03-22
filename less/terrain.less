@@ -8,188 +8,21 @@
 	.tile {
 		position: absolute;
 		display: block; width: 1em; height: 1em;
-
-		// Tile positioning
-		&.x0 {left: 0em;}
-		&.x1 {left: 1em;}
-		&.x2 {left: 2em;}
-		&.x3 {left: 3em;}
-		&.x4 {left: 4em;}
-		&.x5 {left: 5em;}
-		&.x6 {left: 6em;}
-		&.x7 {left: 7em;}
-		&.x8 {left: 8em;}
-		&.x9 {left: 9em;}
-		&.x10 {left: 10em;}
-		&.x11 {left: 11em;}
-		&.x12 {left: 12em;}
-		&.x13 {left: 13em;}
-		&.x14 {left: 14em;}
-		&.y0 {bottom: 7em;}
-		&.y1 {bottom: 6em;}
-		&.y2 {bottom: 5em;}
-		&.y3 {bottom: 4em;}
-		&.y4 {bottom: 3em;}
-		&.y5 {bottom: 2em;}
-		&.y6 {bottom: 1em;}
-		&.y7 {bottom: 0em;}
-
-		// Block stylings
-		&.block {
-			background: @earth;
-			// The cap
-			div {
-				position: absolute; right: 0; left: 0;
-				background: @grass;
-				border: 1px solid darken(@grass, 10%);
-			}
-			// Height adjustments
-			&.height-1 div { top: -0.5em; bottom: 0.5em; }
-			&.height-2 div { top: -1em; bottom: 1em; }
-			// Connections
-			&.connect-t div { border-top: none; }
-			&.connect-r div { border-right: none; }
-			&.connect-b div { border-bottom: none; }
-			&.connect-l div { border-left: none; }
-			// Experimental Shadows
-			/*&:before {
-				content: ' ';
-				position: absolute; left: 0; top: 1em;
-				display: block; width: 0; height: 0;
-				border-style: solid;
-				border-width: 0 1em 1em 0;
-				border-color: transparent darken(@grass, 5%) transparent;
-			}
-			&:after {
-				content: ' ';
-				position: absolute; left: 1em; top: 1em;
-				display: block; width: 0; height: 0;
-				border-style: solid;
-				border-width: 1em 0 0 1em;
-				border-color: transparent transparent transparent darken(@grass, 5%);
-			}*/
+		// The cap
+		.cap {
+			position: absolute; right: 0; left: 0;
+			background: @grass;
+			border: 1px solid darken(@grass, 10%);
 		}
-
-		// Ramps
-		&.ramp-W {
+		// Connections
+		&.connect-t .cap { border-top: none; }
+		&.connect-r .cap { border-right: none; }
+		&.connect-b .cap { border-bottom: none; }
+		&.connect-l .cap { border-left: none; }
+		.wall {
+			position:absolute; right: 0; left: 0; bottom: 0;
 			background: @earth;
-			div {
-				position: absolute; top: -0.5em; right: 0; bottom: 0.5em; left: 0;
-				background: green;
-				&:after {
-					content: ' ';
-					position: absolute; bottom: 0em;
-					display: block; width: 0; height: 0;
-					border-style: solid;
-					border-width: 0.5em 0 0 1em;
-					border-color: green transparent transparent @earth;
-				}
-				&:before {
-					content: ' ';
-					position: absolute; bottom: 1em;
-					display: block; width: 0; height: 0;
-					border-style: solid;
-					border-width: 0.5em 0 0 1em;
-					border-color: transparent transparent transparent green;
-				}
-			}
-		}
-		&.ramp-w {
-			background: @earth;
-			div {
-				position: absolute; top: -0em; right: 0; bottom: 0em; left: 0;
-				background: green;
-				&:after {
-					content: ' ';
-					position: absolute; bottom: 0em;
-					display: block; width: 0; height: 0;
-					border-style: solid;
-					border-width: 0.5em 0 0 1em;
-					border-color: green transparent transparent @earth;
-				}
-				&:before {
-					content: ' ';
-					position: absolute; bottom: 1em;
-					display: block; width: 0; height: 0;
-					border-style: solid;
-					border-width: 0.5em 0 0 1em;
-					border-color: transparent transparent transparent green;
-				}
-			}
-		}
-		&.ramp-E {
-			background: @earth;
-			div {
-				position: absolute; top: -0.5em; right: 0; bottom: 0.5em; left: 0;
-				background: green;
-				&:after {
-					content: ' ';
-					position: absolute; bottom: 0em;
-					display: block; width: 0; height: 0;
-					border-style: solid;
-					border-width: 0.5em 1em 0 0;
-					border-color: green @earth transparent transparent;
-				}
-				&:before {
-					content: ' ';
-					position: absolute; bottom: 1em;
-					display: block; width: 0; height: 0;
-					border-style: solid;
-					border-width: 0.5em 1em 0 0;
-					border-color: transparent green transparent transparent;
-				}
-			}
-		}
-		&.ramp-e {
-			background: @earth;
-			div {
-				position: absolute; top: -0em; right: 0; bottom: 0em; left: 0;
-				background: green;
-				&:after {
-					content: ' ';
-					position: absolute; bottom: 0em;
-					display: block; width: 0; height: 0;
-					border-style: solid;
-					border-width: 0.5em 1em 0 0;
-					border-color: green @earth transparent transparent;
-				}
-				&:before {
-					content: ' ';
-					position: absolute; bottom: 1em;
-					display: block; width: 0; height: 0;
-					border-style: solid;
-					border-width: 0.5em 1em 0 0;
-					border-color: transparent green transparent transparent;
-				}
-			}
-		}
-		&.ramp-N {
-			background: @earth;
-			div {
-				position: absolute; top: -1em; right: 0; bottom: 0.5em; left: 0;
-				background: green;
-			}
-		}
-		&.ramp-n {
-			background: @earth;
-			div {
-				position: absolute; top: -0.5em; right: 0; bottom: 0em; left: 0;
-				background: green;
-			}
-		}
-		&.ramp-S {
-			background: @earth;
-			div {
-				position: absolute; top: -0.5em; right: 0; bottom: 1em; left: 0;
-				background: green;
-			}
-		}
-		&.ramp-s {
-			background: @earth;
-			div {
-				position: absolute; top: 0; right: 0; bottom: 0.5em; left: 0;
-				background: green;
-			}
 		}
 	}
+
 }
