@@ -13,17 +13,22 @@
 	// "Global" variables
 	auk.modules = [];
 
-	/*
+	/**
 	 * Game constructor
 	 *
-	 * @param display: DOM object that will become the container for the game
-	 *
+	 * @param display the DOM object that will become the container for the game
+	 * @param grid    the size of the game's grid, in pixels.
 	 */
-	auk.Game = function (display) {
+	auk.Game = function (display, grid) {
 
 		// Global game variables
 		this.actors = [];
 		this.display = display;
+		this.grid = grid;
+
+		// Set the display's font size to the grid size so em units work as an
+		// automatic converter from grid units to px.
+		this.display.style.fontSize = this.grid+'px';
 
 	};
 

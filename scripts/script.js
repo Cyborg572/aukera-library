@@ -33,7 +33,7 @@
 
 	mapObj = new auk.Map(testMap);
 	document.getElementById('map').appendChild(mapObj.renderTerrain());
-	game = new auk.Game(document.getElementById('map'));
+	game = new auk.Game(document.getElementById('map'), 32);
 	game.init();
 
 	game.addActor(
