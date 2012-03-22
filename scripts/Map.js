@@ -49,94 +49,63 @@
 
 		// Variable declaration
 		var frag = document.createDocumentFragment(),
+		    m = Math,
 		    width = this.data.size[0],
 		    height = this.data.size[1],
-		    layers = this.data.terrain,
-		    layerCount = this.data.terrain.length,
+		    terrain = this.data.terrain,
 		    tile,
+		    tileCap,
+		    tileWall,
 		    tileClasses,
-		    tileType,
-		    layer,
-		    curL,
-		    loopX,
-		    loopY,
-		    loopZ;
+		    x,
+		    y,
+		    z;
 
-		for (loopZ = 0; loopZ < layerCount; loopZ += 1) {
+		for (x = 0; x < width; x += 1) {
+			for (y = 0; y < height; y += 1) {
 
-			// Create a div for the current layer of the map
-			layer = document.createElement('div');
+				// Determine the tiles height
+				z = terrain[x][y];
 
-			// Add appropriate layer classes
-			layer.className = [
-				'layer',
-				'layer' + loopZ
-			].join(' ');
+				// Create a div for the tile and the cap
+				tile = document.createElement('div');
+				tileCap = document.createElement('div');
+				// Put the cap into the tile
+				tile.appendChild(tileCap);
 
-			curL = layers[loopZ];
+				// Adjust the styles to position the tiles
+				tile.style.left = x + 'em';
+				tile.style.top = y + 'em';
+				tile.style.zIndex = y;
+				tileCap.style.top = '-' + (z/2) + 'em';
+				tileCap.style.bottom = (z/2) + 'em';
 
-			for (loopX = 0; loopX < width; loopX += 1) {
-				for (loopY = 0; loopY < height; loopY += 1) {
+				// Add all the basic classes
+				tileClasses  = ['tile'];
 
-					// Determine the tile type
-					tileType = curL[loopX][loopY];
+				// Add classes for tile borders
+				tileClasses.push(
+					(terrain[x][y-1] || 0) === z ? 'connect-t' : '',
+					(x < width-1 ? terrain[x+1][y] : 0) === z ? 'connect-r' : '',
+					(terrain[x][y+1] || 0) === z ? 'connect-b' : '',
+					(x > 0 ? terrain[x-1][y] : 0) === z ? 'connect-l' : ''
+				);
 
-					// break out  if there is a not tile here
-					if (tileType === 0) {
-						continue;
-					}
-
-					// Create a div for the tile
-					tile = document.createElement('div');
-
-					// Add all the basic classes
-					tileClasses  = [
-						'tile',
-						'x' + loopX,
-						'y' + loopY
-					];
-
-					// Blocks
-					if (tileType === 1 || tileType === 2) {
-						tileClasses.push('block');
-						tileClasses.push('height-' + tileType);
-						tileClasses.push(
-							curL[loopX][loopY-1] >= tileType ? 'connect-t' : '',
-							curL[loopX+1][loopY] >= tileType ? 'connect-r' : '',
-							curL[loopX][loopY+1] >= tileType ? 'connect-b' : '',
-							curL[loopX-1][loopY] >= tileType ? 'connect-l' : ''
-						);
-					}
-
-					// Ramps
-					if (
-					    tileType === 'n' ||
-					    tileType === 'e' ||
-					    tileType === 's' ||
-					    tileType === 'w' ||
-					    tileType === 'N' ||
-					    tileType === 'E' ||
-					    tileType === 'S' ||
-					    tileType === 'W'
-					) {
-						tileClasses.push('ramp-'+tileType);
-					}
-
-					// Add the classes to the tile
-					tile.className = tileClasses.join(' ');
-
-					// Throw an extra div into the tile
-					tile.appendChild(document.createElement('div'));
-
-					// Add the tile to the layer
-					layer.appendChild(tile);
-
+				// Add a wall div if the bottom face of the tile is visible.
+				if (terrain[x][y+1] || 0 < z) {
+					tileWall = document.createElement('div');
+					tileWall.className = 'wall';
+					tile.appendChild(tileWall);
+					tileWall.style.height = (z/2) + 'em';
 				}
+
+				// Add the classes to the tile
+				tile.className = tileClasses.join(' ');
+				tileCap.className = 'cap';
+				// Add the tile to the layer
+				frag.appendChild(tile);
+
 			}
-
-			// Add the layer to the fragment
-			frag.appendChild(layer);
-
 		}
 
 		return frag;

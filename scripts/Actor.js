@@ -64,7 +64,7 @@
 
 		// Render the element in it's new location'
 		self.html.style.webkitTransform = "translate3D("+self.x+"px, "+(self.y-self.z)+"px, 0px)";
-
+		self.html.style.zIndex = Math.ceil((self.y/32));
 	};
 
 	/*
