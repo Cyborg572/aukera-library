@@ -35,9 +35,9 @@
 
 	// Adds the motor feature to actors.
 	p.motor.addTo = function (actor, options) {
-		if (!options.speed) {options.speed = 5;}
+		if (!options.speed) {options.speed = 1;}
 		actor.speed = options.speed;
-		actor.vector = new auk.Vector([0, 0, 0], options.speed);
+		actor.vector = new auk.Vector([0, 0, 0], actor.speed);
 		actor.updateSteps.push(this);
 	};
 
@@ -46,8 +46,9 @@
 		if (this.controller.getState('jump') && this.z <= 0) {
 			this.vector.add({x:0, y:0, z:this.jumpStrength});
 		} else if(this.z > 0) {
-			this.vector.add({x:0, y:0, z:-1});
+			this.vector.add({x:0, y:0, z:-5});
 		} else if (this.z <= 0) {
+			this.z = 0;
 			this.vector.add({x:0, y:0, z:-this.vector.z});
 		}
 	};
