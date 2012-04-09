@@ -64,12 +64,30 @@
 
 		// Run all the init functions
 		for (i = 0; i < moduleCount; i += 1) {
-			auk.modules[i].init(this);
+			if (auk.modules[i].init) { auk.modules[i].init(this); }
 		}
+
+		// Set the first room
+		this.setRoom(this.firstRoom);
 
 		// Start the main loop
 		this.update();
 
+	};
+
+	/**
+	 * Sets the room that game will use.
+	 * 
+	 * @param room An object with all the room data.
+	 */
+	auk.Game.prototype.setRoom = function (room) {
+		var moduleCount = auk.modules.length,
+		    i;
+		this.room = room;
+		// Run all the roomEnter functions
+		for (i = 0; i < moduleCount; i += 1) {
+			if (auk.modules[i].roomEnter) { auk.modules[i].roomEnter(this); }
+		}
 	};
 
 	/*

@@ -3,13 +3,14 @@
 	"use strict";
 
 	// Create a test map to use until more of this project is built
-	var testMap,
+	var testRoom,
+	    testRoom2,
 	    mapObj,
 	    game,
 	    actor;
 	
-	testMap = {
-		name:    "Test Map",
+	testRoom = {
+		name:    "Test Room",
 		gps:     [0, 0, 0],
 		size:    [15, 8],
 		terrain: [
@@ -31,9 +32,13 @@
 		]
 	};
 
-	mapObj = new auk.Map(testMap);
-	document.getElementById('map').appendChild(mapObj.renderTerrain());
-	game = new auk.Game(document.getElementById('map'), 64);
+	// Start a game
+	game = new auk.Game(document.getElementById('display'), 64);
+
+	// Load the first room
+	game.firstRoom = testRoom;
+
+	// Initialize the game
 	game.init();
 
 	game.addActor(

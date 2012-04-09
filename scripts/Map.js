@@ -23,36 +23,30 @@
 	 *
 	 */
 
-	auk.Map = function (mapData) {
-
-		// Store the mapData object internally
-		this.data = mapData;
-
-		// Make some references to the import parts of the data
-		this.gps = this.data.gps;
-
+	auk.Map = function () {
+		// Create a div to hold the tiles.
+		this.html = document.createElement('div');
 	};
 
 	// =======================================================================
 	//	Extend the constructor's prototype
 	// =======================================================================
 
-	/*
-	 * {Map}.renderTerrain
-	 *
+	/**
 	 * Returns an documentFragment containing the renered HTML for the
 	 * terrain of the map
 	 *
+	 * @param room The room whose terrain needs rendering.
 	 */
 
-	auk.Map.prototype.renderTerrain = function () {
+	auk.Map.prototype.render = function (room) {
 
 		// Variable declaration
 		var frag = document.createDocumentFragment(),
 		    m = Math,
-		    width = this.data.size[0],
-		    height = this.data.size[1],
-		    terrain = this.data.terrain,
+		    width = room.size[0],
+		    height = room.size[1],
+		    terrain = room.terrain,
 		    tile,
 		    tileCap,
 		    tileWall,
@@ -113,8 +107,8 @@
 	};
 
 	// ========================================================================
-	//	Map library init funtion
-	// =======================================================================
+	//	Map library 'event' handlers
+	// ========================================================================
 
 	/*
 	 * Map.init
@@ -128,6 +122,16 @@
 	auk.modules.push(auk.Map);
 
 	auk.Map.init = function (game) {
+		game.terrain = new auk.Map();
+		game.display.appendChild(game.terrain.html);
+	};
+
+
+	auk.Map.roomEnter = function (game) {
+		game.terrain.html.innerHTML = "";
+		if (game.room.terrain) {
+			game.terrain.html.appendChild(game.terrain.render(game.room));
+		}
 	};
 
 }(window.auk = window.auk || {}));
