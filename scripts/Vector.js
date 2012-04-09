@@ -199,7 +199,7 @@
 			this.dirty = false;
 		}
 	};
-console.log (auk);
+
 	/**
 	 * Set the angle and magnitude values of a vector.
 	 * 
