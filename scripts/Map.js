@@ -74,7 +74,7 @@
 				//tileCap.style.top = (-z/2) + 'em';
 				//tileCap.style.bottom = (z/2) + 'em';
 				tile.style.webkitTransform = "translate3D("+x+"em, "+y+"em, 0px)";
-				tileCap.style.webkitTransform = "translate3D(0px, 0px, "+z+"px)";
+				tileCap.style.webkitTransform = "translate3D(0px, 0px, "+(z/2)+"em)";
 
 				// Add all the basic classes
 				tileClasses  = ['tile'];
@@ -88,7 +88,7 @@
 				);
 
 				// Add a wall div if the bottom face of the tile is visible.
-				if (terrain[x][y+1] || 0 < z) {
+				if ((terrain[x][y+1] || 0) < z) {
 					tileWall = document.createElement('div');
 					tileWall.className = 'wall';
 					tile.appendChild(tileWall);
