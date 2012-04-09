@@ -46,7 +46,7 @@
 		if (this.controller.getState('jump') && this.z <= 0) {
 			this.vector.add({x:0, y:0, z:this.jumpStrength});
 		} else if(this.z > 0) {
-			this.vector.add({x:0, y:0, z:-5});
+			this.vector.add({x:0, y:0, z:-4});
 		} else if (this.z <= 0) {
 			this.z = 0;
 			this.vector.add({x:0, y:0, z:-this.vector.z});

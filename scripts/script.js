@@ -45,7 +45,7 @@
 			65 : 'left',
 			32 : 'jump'
 		}))
-		.add(auk.physics.jump, {power: 40})
+		.add(auk.physics.jump, {power: 35})
 		.add(auk.physics.motor, {speed: 6})
 	);
 
