@@ -45,7 +45,7 @@
 
 		// Run all the update functions
 		for (i = 0; i < actorCount; i += 1) {
-			this.actors[i].update();
+			if (this.actors[i].update) { this.actors[i].update(); }
 		}
 
 		// Run update again as soon as possible
@@ -81,12 +81,12 @@
 	 * @param room An object with all the room data.
 	 */
 	auk.Game.prototype.setRoom = function (room) {
-		var moduleCount = auk.modules.length,
+		var actorCount = this.actors.length,
 		    i;
 		this.room = room;
 		// Run all the roomEnter functions
-		for (i = 0; i < moduleCount; i += 1) {
-			if (auk.modules[i].roomEnter) { auk.modules[i].roomEnter(this); }
+		for (i = 0; i < actorCount; i += 1) {
+			if (this.actors[i].roomEnter) { this.actors[i].roomEnter(this); }
 		}
 	};
 
