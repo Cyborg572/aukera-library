@@ -71,7 +71,7 @@
 				tile.style.left = x + 'em';
 				tile.style.top = y + 'em';
 				tile.style.zIndex = y;
-				tileCap.style.top = '-' + (z/2) + 'em';
+				tileCap.style.top = (-z/2) + 'em';
 				tileCap.style.bottom = (z/2) + 'em';
 
 				// Add all the basic classes
@@ -90,7 +90,8 @@
 					tileWall = document.createElement('div');
 					tileWall.className = 'wall';
 					tile.appendChild(tileWall);
-					tileWall.style.height = (z/2) + 'em';
+					tileWall.style.top = (1-z/2) + 'em';
+					tileWall.style.bottom = (terrain[x][y+1]/2) + 'em';
 				}
 
 				// Add the classes to the tile
