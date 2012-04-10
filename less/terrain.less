@@ -1,16 +1,13 @@
-body {
-	-webkit-perspective: 700px;
 .map {
 	font-size: 32px;
 	margin:0 auto;
-	position: relative;
+	position: absolute; bottom: 0;
 	display:block; width: 15em; height: 8em;
-	border: 8px solid blue;
 	//background: @grass;
-	-webkit-transform: translate3d(0, 256px, 0) rotateX(90deg);
+	-webkit-transform-origin: bottom center;
+	-webkit-transform: translate3d(0, 0, 0) rotateX(90deg);
 	-webkit-backface-visibility: hidden;
 	-webkit-transform-style: ~"preserve-3d";
-}
 
 	.tile {
 		position: absolute;
@@ -22,20 +19,37 @@ body {
 			position: absolute; //right: 0; left: 0;
 			width: 1em; height: 1em;
 			background: @grass;
-			border: 1px solid darken(@grass, 10%);
+			//border: 1px solid darken(@grass, 10%);
 		}
 		// Connections
-		&.connect-t .cap { border-top: none; }
-		&.connect-r .cap { border-right: none; }
-		&.connect-b .cap { border-bottom: none; }
-		&.connect-l .cap { border-left: none; }
+		&.connect-n .cap { border-top: none; }
+		&.connect-e .cap { border-right: none; }
+		&.connect-s .cap { border-bottom: none; }
+		&.connect-w .cap { border-left: none; }
 		.wall {
-			position:absolute; right: 0; left: 0; bottom: 0; top: 0;
-			width: 1em;
-			-webkit-transform-origin: bottom center;
+			position:absolute;
+			width: 1em; height: 1em;
 			-webkit-transform: rotateX(-90deg);
+			-webkit-backface-visibility: hidden;
 			background: @earth;
+			&.wall-N {
+					top: 0;
+					-webkit-transform-origin: top center;
+			}
+			&.wall-E {
+				right: 0;
+				-webkit-transform-origin: center right;
+				background: darken(@earth, 10%);
+			}
+			&.wall-S {
+				bottom: 0;
+				-webkit-transform-origin: bottom center;
+			}
+			&.wall-W {
+				left: 0;
+				-webkit-transform-origin: center left;
+				background: lighten(@earth, 10%);
+			}
 		}
 	}
-
 }

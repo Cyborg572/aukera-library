@@ -49,8 +49,9 @@
 		    terrain = room.terrain,
 		    tile,
 		    tileCap,
-		    tileWall,
+		    tileWalls = {},
 		    tileClasses,
+		    adjacentZ,
 		    x,
 		    y,
 		    z;
@@ -79,22 +80,56 @@
 				// Add all the basic classes
 				tileClasses  = ['tile'];
 
-				// Add classes for tile borders
-				tileClasses.push(
-					(terrain[x][y-1] || 0) === z ? 'connect-t' : '',
-					(x < width-1 ? terrain[x+1][y] : 0) === z ? 'connect-r' : '',
-					(terrain[x][y+1] || 0) === z ? 'connect-b' : '',
-					(x > 0 ? terrain[x-1][y] : 0) === z ? 'connect-l' : ''
-				);
-
-				// Add a wall div if the bottom face of the tile is visible.
-				if ((terrain[x][y+1] || 0) < z) {
-					tileWall = document.createElement('div');
-					tileWall.className = 'wall';
-					tile.appendChild(tileWall);
-					tileWall.style.top = (1-z/2) + 'em';
-					tileWall.style.bottom = (terrain[x][y+1]/2) + 'em';
+				// Check adjacent tiles and add walls and borders
+				
+				// North
+				adjacentZ = terrain[x][y-1] || 0;
+				if (adjacentZ < z) {
+					tileWalls.north = document.createElement('div');
+					tileWalls.north.className = 'wall wall-N';
+					tile.appendChild(tileWalls.north);
+					tileWalls.north.style.height = (z - adjacentZ) / 2 + 'em';
+					tileWalls.north.style.webkitTransform = "translate3D(0, 0, " + adjacentZ/2 + "em) rotateX(90deg)";
+				} else if (adjacentZ === z) {
+					tileClasses.push('connect-n');
 				}
+
+				// East
+				adjacentZ = x < width-1 ? terrain[x+1][y] : 0;
+				if (adjacentZ < z) {
+					tileWalls.east = document.createElement('div');
+					tileWalls.east.className = 'wall wall-E';
+					tile.appendChild(tileWalls.east);
+					tileWalls.east.style.width = (z - adjacentZ) / 2 + 'em';
+					tileWalls.east.style.webkitTransform = "translate3D(0, 0, " + adjacentZ/2 + "em) rotateY(90deg)";
+				} else if (adjacentZ === z) {
+					tileClasses.push('connect-e');
+				}
+
+				// South
+				adjacentZ = terrain[x][y+1] || 0;
+				if (adjacentZ < z) {
+					tileWalls.south = document.createElement('div');
+					tileWalls.south.className = 'wall wall-S';
+					tile.appendChild(tileWalls.south);
+					tileWalls.south.style.height = (z - adjacentZ) / 2 + 'em';
+					tileWalls.south.style.webkitTransform = "translate3D(0, 0, " + adjacentZ/2 + "em) rotateX(-90deg)";
+				} else if (adjacentZ === z) {
+					tileClasses.push('connect-s');
+				}
+
+				// West
+				adjacentZ = x > 0 ? terrain[x-1][y] : 0;
+				if (adjacentZ < z) {
+					tileWalls.west = document.createElement('div');
+					tileWalls.west.className = 'wall wall-W';
+					tile.appendChild(tileWalls.west);
+					tileWalls.west.style.width = (z - adjacentZ) / 2 + 'em';
+					tileWalls.west.style.webkitTransform = "translate3D(0, 0, " + adjacentZ/2 + "em) rotateY(-90deg)";
+				} else if (adjacentZ === z) {
+					tileClasses.push('connect-w');
+				}
+
 
 				// Add the classes to the tile
 				tile.className = tileClasses.join(' ');

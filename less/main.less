@@ -2,10 +2,24 @@
 @import "reset";
 @import "terrain";
 
+html {
+	background: white;
+}
+
+body {
+	font-size: 64px;
+	margin: auto;
+	display: block; width: 15em; height: 8em; overflow: hidden;
+	-webkit-perspective: 700px;
+	-webkit-transform-style: flat;
+	background: skyblue;
+	border: 1px solid red;
+}
+
 #actor {
 	position: absolute; top:0; left: 0;
 	display: block; width: 1em; height: 1em;
 	border-radius: 0.5em;
 	-webkit-transform-origin: bottom center;
-	background: red;
+	background: rgba(0,0,0, 0.5);
 }

@@ -63,7 +63,7 @@
 		}
 
 		// Render the element in it's new location'
-		self.html.style.webkitTransform = "translate3D("+(self.x/100)+"em, "+(self.y/100)+"em, "+(self.z/100)+"em) rotateX(-90deg)";
+		self.html.style.webkitTransform = "translate3D("+(self.x/100)+"em, "+(self.y/100)+"em, "+(self.z/100)+"em) rotateX(0deg)";
 		//self.html.style.zIndex = Math.ceil((self.y/100)  > 0 ? (self.y/100) : 0);
 	};
 
