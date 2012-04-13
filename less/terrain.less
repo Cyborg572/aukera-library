@@ -19,20 +19,21 @@
 			position: absolute; //right: 0; left: 0;
 			width: 1em; height: 1em;
 			background: @grass;
-			-webkit-transition: all 0.25s ease-out;
-			//border: 1px solid darken(@grass, 10%);
+			//-webkit-transition: all 0.125s ease-out;
+			border: 3px solid darken(@grass, 10%);
+			-webkit-box-sizing: border-box;
 		}
 		// Connections
-		&.connect-n .cap { border-top: none; }
-		&.connect-e .cap { border-right: none; }
-		&.connect-s .cap { border-bottom: none; }
-		&.connect-w .cap { border-left: none; }
+		&.connect-n .cap { border-top-width: 0; }
+		&.connect-e .cap { border-right-width: 0; }
+		&.connect-s .cap { border-bottom-width: 0; }
+		&.connect-w .cap { border-left-width: 0; }
 		.wall {
 			position:absolute;
 			width: 1em; height: 1em;
 			-webkit-transform: rotateX(-90deg);
 			-webkit-backface-visibility: hidden;
-			-webkit-transition: all 0.25s ease-out;
+			//-webkit-transition: all 0.125s ease-out;
 			background: @earth;
 			&.wall-N {
 					top: 0;

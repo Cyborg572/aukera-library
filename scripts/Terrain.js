@@ -140,19 +140,19 @@
 		this.html.style.webkitTransform = "translate3D("+x+"em, "+y+"em, 0px)";
 
 		this.cap.className = "cap";
-		this.cap.style.webkitTransitionDelay = (x/20) + "s";
+		//this.cap.style.webkitTransitionDelay = (x/20) + "s";
 
 		this.walls[0].className = "wall wall-N";
-		this.walls[0].style.webkitTransitionDelay = (x/20) + "s";
+		//this.walls[0].style.webkitTransitionDelay = (x/20) + "s";
 
 		this.walls[1].className = "wall wall-E";
-		this.walls[1].style.webkitTransitionDelay = (x/20) + "s";
+		//this.walls[1].style.webkitTransitionDelay = (x/20) + "s";
 
 		this.walls[2].className = "wall wall-S";
-		this.walls[2].style.webkitTransitionDelay = (x/20) + "s";
+		//this.walls[2].style.webkitTransitionDelay = (x/20) + "s";
 
 		this.walls[3].className = "wall wall-W";
-		this.walls[3].style.webkitTransitionDelay = (x/20) + "s";
+		//this.walls[3].style.webkitTransitionDelay = (x/20) + "s";
 
 		// Assemble it
 		this.html.appendChild(this.walls[0]);
