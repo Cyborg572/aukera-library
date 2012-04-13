@@ -19,12 +19,17 @@
 	 * @param display the DOM object that will become the container for the game
 	 * @param grid    the size of the game's grid, in pixels.
 	 */
-	auk.Game = function (display, grid) {
+	auk.Game = function (display, grid, startRoom) {
 
 		// Global game variables
 		this.actors = [];
 		this.display = display;
 		this.grid = grid;
+		this.room = startRoom;
+		// Eight adjacent rooms, false means there's nothing loaded there yet.
+		this.adjacentRooms = [
+			false, false, false, false, false, false, false, false
+		];
 
 		// Set the display's font size to the grid size so em units work as an
 		// automatic converter from grid units to px.
@@ -68,7 +73,7 @@
 		}
 
 		// Set the first room
-		this.setRoom(this.firstRoom);
+		this.setRoom(this.room);
 
 		// Start the main loop
 		this.update();
@@ -84,9 +89,25 @@
 		var actorCount = this.actors.length,
 		    i;
 		this.room = room;
+
+		// Start loading the adjacent rooms.
+		this.loadAdjacentRooms();
+
 		// Run all the roomEnter functions
 		for (i = 0; i < actorCount; i += 1) {
 			if (this.actors[i].roomEnter) { this.actors[i].roomEnter(this); }
+		}
+	};
+
+	/**
+	 * Downloads the new rooms from the server.
+	 */
+	auk.Game.prototype.loadAdjacentRooms = function () {
+		var a = this.room.adjacentRooms,
+		    i;
+
+		for (i = 0; i < 8; i +=1) {
+			this.adjacentRooms[i] = a[i] ? auk.rooms[a[i]] : false;
 		}
 	};
 
