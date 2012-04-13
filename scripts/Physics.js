@@ -28,9 +28,9 @@
 			this.vector.add({x: -this.speed, y:0, z:0});
 		}
 		this.vector.subtract({x: this.vector.x/3, y: this.vector.y/3, z:0});
-		this.x += this.vector.x;
-		this.y += this.vector.y;
-		this.z += this.vector.z;
+		this.x += this.vector.x/100;
+		this.y += this.vector.y/100;
+		this.z += this.vector.z/100;
 	};
 
 	// Adds the motor feature to actors.
