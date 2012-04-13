@@ -96,11 +96,18 @@
 	 * Registers a new actor to be updated during the main loop
 	 *
 	 * @param actor: the actor to be added
+	 * @return The actor that was added.
 	 */
 	auk.Game.prototype.addActor = function (actor) {
+		// Let the actor know what game it's part of
 		actor.game = this;
+
+		// Actually add the actor to the game
 		this.actors.push(actor);
 		this.display.appendChild(actor.html);
+
+		// Return the actor, makes for a nicer API
+		return actor;
 	};
 
 	/*

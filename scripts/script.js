@@ -7,7 +7,7 @@
 	    testRoom2,
 	    terrain,
 	    game,
-	    actor;
+	    player;
 	
 	testRoom = {
 		name:    "Test Room",
@@ -64,17 +64,14 @@
 	// Initialize the game
 	game.init();
 
-	setTimeout(function(){
-		game.setRoom(testRoom2);
-		//terrain.render(testRoom2);
-	}, 3000);
-
 	terrain = new auk.Terrain(game.room.size[0], game.room.size[1], game.room.terrain);
 
 	game.addActor(terrain);
 	terrain.render(game.room);
 
-	game.addActor(
+	
+
+	player = game.addActor(
 		(new auk.Actor(5,5,6))
 		.add(new auk.Keybinding({
 			87 : 'up',
@@ -86,5 +83,16 @@
 		.add(auk.physics.jump, {power: 35})
 		.add(auk.physics.motor, {speed: 6})
 	);
+
+	player.updateSteps.push(function () {
+		if (this.x < 0) {
+			this.x = 14;
+			this.game.setRoom(testRoom2);
+		}
+		if (this.x > 14) {
+			this.x = 0;
+			this.game.setRoom(testRoom);
+		}
+	});
 
 }(window.auk = window.auk || {}));
