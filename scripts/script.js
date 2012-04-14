@@ -3,14 +3,13 @@
 	"use strict";
 
 	// Create a test map to use until more of this project is built
-	var rooms = {},
+	var game,
 	    terrain,
-	    game,
+	    test1,
+	    test2,
 	    player;
 	
-	auk.rooms = {};
-	
-	auk.rooms.test1 = {
+	test1 = {
 		name:    "test1",
 		gps:     [0, 0, 0],
 		size:    [15, 8],
@@ -43,7 +42,7 @@
 		]
 	};
 
-	auk.rooms.test2 = {
+	test2 = {
 		name:    "test2",
 		gps:     [0, 0, 0],
 		size:    [15, 8],
@@ -77,7 +76,9 @@
 	};
 
 	// Start a game
-	game = new auk.Game(document.getElementById('display'), 64, auk.rooms.test1);
+	game = new auk.Game(document.getElementById('display'), 64, "test1");
+	game.bucket.rooms.test1 = test1;
+	game.bucket.rooms.test2 = test2;
 
 	// Initialize the game
 	game.init();

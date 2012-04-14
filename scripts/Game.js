@@ -22,14 +22,18 @@
 	auk.Game = function (display, grid, startRoom) {
 
 		// Global game variables
-		this.actors = [];
-		this.display = display;
-		this.grid = grid;
-		this.room = startRoom;
+		this.actors = []; // Stores dynamic game objects
+		this.display = display; // The HTML to render the game in
+		this.grid = grid; // The size of 1 grid unit
+		// Storage for game objects not in use.
+		this.bucket = {
+			rooms:{}
+		};
 		// Eight adjacent rooms, false means there's nothing loaded there yet.
 		this.adjacentRooms = [
 			false, false, false, false, false, false, false, false
 		];
+		this.room = startRoom; // The first room to load
 
 		// Set the display's font size to the grid size so em units work as an
 		// automatic converter from grid units to px.
@@ -73,7 +77,7 @@
 		}
 
 		// Set the first room
-		this.setRoom(this.room);
+		this.setRoom(this.loadRoom(this.room));
 
 		// Start the main loop
 		this.update();
@@ -103,12 +107,22 @@
 	 * Downloads the new rooms from the server.
 	 */
 	auk.Game.prototype.loadAdjacentRooms = function () {
-		var a = this.room.adjacentRooms,
+		var a = this.room.adjacentRooms || [false, false, false, false, false, false, false, false],
 		    i;
 
 		for (i = 0; i < 8; i +=1) {
-			this.adjacentRooms[i] = a[i] ? auk.rooms[a[i]] : false;
+			this.adjacentRooms[i] = a[i] ? this.loadRoom(a[i]) : false;
 		}
+	};
+
+	/**
+	 * Loads a room from the bucket.
+	 * 
+	 * @param room The name of the room to load
+	 */
+	auk.Game.prototype.loadRoom = function (room) {
+		var game = this;
+		return game.bucket.rooms[room] || false;
 	};
 
 	/*
