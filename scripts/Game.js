@@ -33,6 +33,7 @@
 		this.adjacentRooms = [
 			false, false, false, false, false, false, false, false
 		];
+
 		this.room = startRoom; // The first room to load
 
 		// Set the display's font size to the grid size so em units work as an

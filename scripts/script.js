@@ -15,7 +15,7 @@
 		size:    [15, 8],
 		adjacentRooms: [
 			false,
-			false,
+			"test3",
 			false,
 			'test2',
 			false,
@@ -42,43 +42,9 @@
 		]
 	};
 
-	test2 = {
-		name:    "test2",
-		gps:     [0, 0, 0],
-		size:    [15, 8],
-		adjacentRooms: [
-			false,
-			'test1',
-			false,
-			false,
-			'test1',
-			false,
-			false,
-			false
-		],
-		terrain: [
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 3, 3, 3, 3, 0, 0],
-			[0, 0, 2, 2, 2, 2, 0, 0],
-			[0, 0, 1, 1, 1, 1, 0, 0],
-			[0, 0, 2, 2, 2, 2, 0, 0],
-			[0, 0, 3, 3, 3, 3, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0,-1,-1,-1,-1,-1, 0],
-			[0, 0,-1,-2,-2,-2,-1, 0],
-			[0, 0,-1,-2,-3,-2,-1, 0],
-			[0, 0,-1,-2,-2,-2,-1, 0],
-			[0, 0,-1,-1,-1,-1,-1, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0]
-		]
-	};
-
 	// Start a game
 	game = new auk.Game(document.getElementById('display'), 64, "test1");
 	game.bucket.rooms.test1 = test1;
-	game.bucket.rooms.test2 = test2;
 
 	// Initialize the game
 	game.init();
