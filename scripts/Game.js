@@ -19,12 +19,22 @@
 	 * @param display the DOM object that will become the container for the game
 	 * @param grid    the size of the game's grid, in pixels.
 	 */
-	auk.Game = function (display, grid) {
+	auk.Game = function (display, grid, startRoom) {
 
 		// Global game variables
-		this.actors = [];
-		this.display = display;
-		this.grid = grid;
+		this.actors = []; // Stores dynamic game objects
+		this.display = display; // The HTML to render the game in
+		this.grid = grid; // The size of 1 grid unit
+		// Storage for game objects not in use.
+		this.bucket = {
+			rooms:{}
+		};
+		// Eight adjacent rooms, false means there's nothing loaded there yet.
+		this.adjacentRooms = [
+			false, false, false, false, false, false, false, false
+		];
+
+		this.room = startRoom; // The first room to load
 
 		// Set the display's font size to the grid size so em units work as an
 		// automatic converter from grid units to px.
@@ -45,7 +55,7 @@
 
 		// Run all the update functions
 		for (i = 0; i < actorCount; i += 1) {
-			this.actors[i].update();
+			if (this.actors[i].update) { this.actors[i].update(); }
 		}
 
 		// Run update again as soon as possible
@@ -64,12 +74,56 @@
 
 		// Run all the init functions
 		for (i = 0; i < moduleCount; i += 1) {
-			auk.modules[i].init(this);
+			if (auk.modules[i].init) { auk.modules[i].init(this); }
 		}
+
+		// Set the first room
+		this.setRoom(this.loadRoom(this.room));
 
 		// Start the main loop
 		this.update();
 
+	};
+
+	/**
+	 * Sets the room that game will use.
+	 * 
+	 * @param room An object with all the room data.
+	 */
+	auk.Game.prototype.setRoom = function (room) {
+		var actorCount = this.actors.length,
+		    i;
+		this.room = room;
+
+		// Start loading the adjacent rooms.
+		this.loadAdjacentRooms();
+
+		// Run all the roomEnter functions
+		for (i = 0; i < actorCount; i += 1) {
+			if (this.actors[i].roomEnter) { this.actors[i].roomEnter(this); }
+		}
+	};
+
+	/**
+	 * Downloads the new rooms from the server.
+	 */
+	auk.Game.prototype.loadAdjacentRooms = function () {
+		var a = this.room.adjacentRooms || [false, false, false, false, false, false, false, false],
+		    i;
+
+		for (i = 0; i < 8; i +=1) {
+			this.adjacentRooms[i] = a[i] ? this.loadRoom(a[i]) : false;
+		}
+	};
+
+	/**
+	 * Loads a room from the bucket.
+	 * 
+	 * @param room The name of the room to load
+	 */
+	auk.Game.prototype.loadRoom = function (room) {
+		var game = this;
+		return game.bucket.rooms[room] || false;
 	};
 
 	/*
@@ -78,11 +132,18 @@
 	 * Registers a new actor to be updated during the main loop
 	 *
 	 * @param actor: the actor to be added
+	 * @return The actor that was added.
 	 */
 	auk.Game.prototype.addActor = function (actor) {
+		// Let the actor know what game it's part of
 		actor.game = this;
+
+		// Actually add the actor to the game
 		this.actors.push(actor);
 		this.display.appendChild(actor.html);
+
+		// Return the actor, makes for a nicer API
+		return actor;
 	};
 
 	/*

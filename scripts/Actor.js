@@ -63,8 +63,8 @@
 		}
 
 		// Render the element in it's new location'
-		self.html.style.webkitTransform = "translate3D("+(self.x/100)+"em, "+((self.y-self.z)/100)+"em, 0px)";
-		self.html.style.zIndex = Math.ceil((self.y/100)  > 0 ? (self.y/100) : 0);
+		self.html.style.webkitTransform = "translate3D("+(self.x)+"em, "+(self.y)+"em, "+(self.z)+"em) rotateX(0deg)";
+		//self.html.style.zIndex = Math.ceil((self.y/100)  > 0 ? (self.y/100) : 0);
 	};
 
 	/*
