@@ -137,7 +137,7 @@
 
 		// Configure each part
 		this.html.className = "tile";
-		this.html.style.webkitTransform = "translate3D("+x+"em, "+y+"em, 0px)";
+		this.html.style[auk.transform] = "translate3D("+x+"em, "+y+"em, 0px)";
 
 		this.cap.className = "cap";
 		//this.cap.style.webkitTransitionDelay = (x/20) + "s";
@@ -175,13 +175,13 @@
 	 */
 	auk.Terrain.Tile.prototype.setHeight = function (h, a) {
 		// Move the Cap to the right height
-		this.cap.style.webkitTransform = "translate3D(0px, 0px, "+(h/2)+"em)";
+		this.cap.style[auk.transform] = "translate3D(0px, 0px, "+(h/2)+"em)";
 
 		// Adjust the walls
 		// North
 		if (h > a[0]) {
 			this.walls[0].style.height = (h - a[0]) / 2 + 'em';
-			this.walls[0].style.webkitTransform = "translate3D(0, 0, " + a[0]/2 + "em) rotateX(90deg)";
+			this.walls[0].style[auk.transform] = "translate3D(0, 0, " + a[0]/2 + "em) rotateX(90deg)";
 		} else {
 			this.walls[0].style.height = 0;
 		}
@@ -189,28 +189,28 @@
 		// East
 		if (h > a[1]) {
 			this.walls[1].style.width = (h - a[1]) / 2 + 'em';
-			this.walls[1].style.webkitTransform = "translate3D(0, 0, " + a[1]/2 + "em) rotateY(90deg)";
+			this.walls[1].style[auk.transform] = "translate3D(0, 0, " + a[1]/2 + "em) rotateY(90deg)";
 		} else {
 			this.walls[1].style.width = 0;
-			this.walls[1].style.webkitTransform = "translate3D(0, 0, 0) rotateY(90deg)";
+			this.walls[1].style[auk.transform] = "translate3D(0, 0, 0) rotateY(90deg)";
 		}
 
 		// South
 		if (h > a[2]) {
 			this.walls[2].style.height = (h - a[2]) / 2 + 'em';
-			this.walls[2].style.webkitTransform = "translate3D(0, 0, " + a[2]/2 + "em) rotateX(-90deg)";
+			this.walls[2].style[auk.transform] = "translate3D(0, 0, " + a[2]/2 + "em) rotateX(-90deg)";
 		} else {
 			this.walls[2].style.height = 0;
-			this.walls[2].style.webkitTransform = "translate3D(0, 0, 0) rotateX(-90deg)";
+			this.walls[2].style[auk.transform] = "translate3D(0, 0, 0) rotateX(-90deg)";
 		}
 
 		// West
 		if (h > a[3]) {
 			this.walls[3].style.width = (h - a[3]) / 2 + 'em';
-			this.walls[3].style.webkitTransform = "translate3D(0, 0, " + a[3]/2 + "em) rotateY(-90deg)";
+			this.walls[3].style[auk.transform] = "translate3D(0, 0, " + a[3]/2 + "em) rotateY(-90deg)";
 		} else {
 			this.walls[3].style.width = 0;
-			this.walls[3].style.webkitTransform = "translate3D(0, 0, 0) rotateY(-90deg)";
+			this.walls[3].style[auk.transform] = "translate3D(0, 0, 0) rotateY(-90deg)";
 		}
 
 	};
