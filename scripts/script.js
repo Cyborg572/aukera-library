@@ -103,4 +103,11 @@
 		}
 	});
 
+	/**
+	 * Temporary camera update function
+	 */
+	player.updateSteps.push(function () {
+		this.game.world.style[auk.transform] = "translate3D("+(-(this.x-7.5))+"em, "+(-((this.y-4)/2)+this.z)+"em, "+(-((this.y-4)/2)-this.z)+"em) rotateX(45deg)";
+	});
+
 }(window.auk = window.auk || {}));
