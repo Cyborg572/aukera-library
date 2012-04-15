@@ -34,6 +34,7 @@
 		this.tiles = [];
 		// Create a div to hold the tile html.
 		this.html = document.createElement('div');
+		this.html.className = "terrain";
 
 		// Create the necessary tile objects.
 		for (x = 0; x < width; x += 1) {
