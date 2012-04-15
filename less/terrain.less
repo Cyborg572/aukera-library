@@ -4,16 +4,16 @@
 	position: absolute; bottom: 0;
 	display:block; width: 15em; height: 8em;
 	//background: @grass;
-	-webkit-transform-origin: bottom center;
-	-webkit-transform: translate3d(0, 0, 0) rotateX(50deg);
-	-webkit-backface-visibility: hidden;
-	-webkit-transform-style: ~"preserve-3d";
+	.transform-origin(bottom center);
+	.transform-style(~"preserve-3d");
+	.backface-visibility(hidden);
+	.transform(translate3d(0, 0, 0) rotateX(50deg));
 
 	.tile {
 		position: absolute;
 		display: block; width: 1em; height: 1em;
-		-webkit-backface-visibility: hidden;
-		-webkit-transform-style: ~"preserve-3d";
+		.backface-visibility(hidden);
+		.transform-style(~"preserve-3d");
 		// The cap
 		.cap {
 			position: absolute; //right: 0; left: 0;
@@ -21,7 +21,7 @@
 			background: @grass;
 			//-webkit-transition: all 0.125s ease-out;
 			border: 3px solid darken(@grass, 10%);
-			-webkit-box-sizing: border-box;
+			.box-sizing(border-box);
 		}
 		// Connections
 		&.connect-n .cap { border-top-width: 0; }
@@ -31,26 +31,26 @@
 		.wall {
 			position:absolute;
 			width: 1em; height: 1em;
-			-webkit-transform: rotateX(-90deg);
-			-webkit-backface-visibility: hidden;
+			.transform(rotateX(-90deg));
+			.backface-visibility(hidden);
 			//-webkit-transition: all 0.125s ease-out;
 			background: @earth;
 			&.wall-N {
 					top: 0;
-					-webkit-transform-origin: top center;
+					.transform-origin(top center);
 			}
 			&.wall-E {
 				right: 0;
-				-webkit-transform-origin: center right;
+				.transform-origin(center right);
 				background: darken(@earth, 10%);
 			}
 			&.wall-S {
 				bottom: 0;
-				-webkit-transform-origin: bottom center;
+				.transform-origin(bottom center);
 			}
 			&.wall-W {
 				left: 0;
-				-webkit-transform-origin: center left;
+				.transform-origin(center left);
 				background: lighten(@earth, 10%);
 			}
 		}

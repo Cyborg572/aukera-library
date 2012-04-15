@@ -13,6 +13,27 @@
 	// "Global" variables
 	auk.modules = [];
 
+	// Temporary fix for cross-browser 3D transforms
+	auk.transform = (function(){
+		var test = document.getElementsByTagName('script')[0];
+		
+		if ("transform" in test.style) {
+			return "transform";
+		} else if ("WebkitTransform" in test.style) {
+			return "WebkitTransform";
+		} else if ("MozTransform" in test.style) {
+			return "MozTransform";
+		} else if ("OTransform" in test.style) {
+			return "OTransform";
+		} else if ("mTransform" in test.style) {
+			return "mTransform";
+		} else {
+			alert("Your browser does not support CSS 3D transforms");
+			window.location.href = "/";
+		}
+		
+	}());
+
 	/**
 	 * Game constructor
 	 *
