@@ -39,7 +39,7 @@
 
 		// Attach the HTML
 		this.html = document.createElement('div');
-		this.html.id = "actor";
+		this.html.className = "actor";
 
 	};
 

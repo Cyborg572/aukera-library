@@ -44,7 +44,6 @@
 
 		// Global game variables
 		this.actors = []; // Stores dynamic game objects
-		this.display = display; // The HTML to render the game in
 		this.grid = grid; // The size of 1 grid unit
 		// Storage for game objects not in use.
 		this.bucket = {
@@ -57,10 +56,14 @@
 
 		this.room = startRoom; // The first room to load
 
-		// Set the display's font size to the grid size so em units work as an
-		// automatic converter from grid units to px.
+		// Configure the HTML and css
+		this.display = display;
+		this.layers = {};
+		this.display.className += " auk_display";
 		this.display.style.fontSize = this.grid+'px';
-
+		this.world = document.createElement('div');
+		this.world.className = "auk_world";
+		this.display.appendChild(this.world);
 	};
 
 	/*
@@ -161,7 +164,7 @@
 
 		// Actually add the actor to the game
 		this.actors.push(actor);
-		this.display.appendChild(actor.html);
+		this.world.appendChild(actor.html);
 
 		// Return the actor, makes for a nicer API
 		return actor;
