@@ -7,24 +7,27 @@ html {
 	background: white;
 }
 
-body {
+.auk_display {
 	font-size: 64px;
 	margin: auto;
-	display: block; width: 15em; height: 8em; overflow: hidden;
-}
-
-#extraWrap {
 	display: block; width: 15em; height: 8em; overflow: hidden;
 	.perspective(700px);
 	.transform-style(flat);
 	background: skyblue;
-	border: 1px solid red;
+	.auk_world {
+		position: absolute; top: 0; left: 0;
+		display:block; width: 15em; height: 8em;
+		.transform-origin(bottom center);
+		.transform-style(~"preserve-3d");
+		.backface-visibility(hidden);
+		.transform(translate3d(0, 0, 0) rotateX(50deg));
+	}
 }
 
-#actor {
+.actor {
 	position: absolute; top:0; left: 0;
 	display: block; width: 1em; height: 1em;
 	border-radius: 0.5em;
-	.transform-origin(bottom center);
+	.transform-origin(top left);
 	background: rgba(0,0,0, 0.5);
 }
