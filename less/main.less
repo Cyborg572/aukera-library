@@ -1,5 +1,6 @@
 @import "variables";
 @import "reset";
+@import "mixins";
 @import "terrain";
 
 html {
@@ -14,8 +15,8 @@ body {
 
 #extraWrap {
 	display: block; width: 15em; height: 8em; overflow: hidden;
-	-webkit-perspective: 700px;
-	-webkit-transform-style: flat;
+	.perspective(700px);
+	.transform-style(flat);
 	background: skyblue;
 	border: 1px solid red;
 }
@@ -24,6 +25,6 @@ body {
 	position: absolute; top:0; left: 0;
 	display: block; width: 1em; height: 1em;
 	border-radius: 0.5em;
-	-webkit-transform-origin: bottom center;
+	.transform-origin(bottom center);
 	background: rgba(0,0,0, 0.5);
 }
