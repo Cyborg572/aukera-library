@@ -88,4 +88,27 @@
 		actor.updateSteps.push(this);
 	};
 
+	// ========================================================================
+	// Integrate physics with the rest of the game systems.
+	// ========================================================================
+	
+	// Add the Terrain module to the list of modules.
+	auk.modules.push(auk.Physics);
+
+	/**
+	 * Does physics-related thing to rooms.
+	 * 
+	 * When a room is initialized, this function is called to add Physics
+	 * capabilities.
+	 * 
+	 * @param room The room being initialized
+	 */
+	auk.Physics.roomInit = function (room) {
+		if (room.data.physics) {
+			room.physics = new auk.Physics(room.data.physics);
+		} else {
+			room.physics = room.game.physics;
+		}
+	};
+
 }(window.auk = window.auk || {}));

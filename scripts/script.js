@@ -7,6 +7,7 @@
 	    terrain,
 	    test1,
 	    test2,
+	    room,
 	    player;
 	
 	test1 = {
@@ -17,7 +18,7 @@
 			false,
 			"test3",
 			false,
-			'test2',
+			false,
 			false,
 			false,
 			'test2',
@@ -44,15 +45,17 @@
 
 	// Start a game
 	game = new auk.Game(document.getElementById('display'), 64, "test1");
-	game.bucket.rooms.test1 = test1;
+
+	game.physics = new auk.Physics({gravity: 4, friction: 0.3});
+
+	game.bucket.rooms.test1 = new auk.Room(game).init(test1);
 
 	// Initialize the game
 	game.init();
 
-	terrain = new auk.Terrain(game.room.size[0], game.room.size[1], game.room.terrain);
-
-	game.addActor(terrain);
-	terrain.render(game.room);
+	//game.addActor(terrain);
+	
+	//terrain.render(game.room);
 
 	player = game.addActor(
 		(new auk.Actor(5,5,6))
@@ -69,36 +72,44 @@
 
 	player.updateSteps.push(function () {
 		//console.log(this.game.adjacentRooms[3]);
-		if (this.y < 0) {
+		if (this.y < -0.5) {
 			if (this.game.adjacentRooms[1]) {
-				this.y = 7;
+				this.y = 7.5;
+				this.room.removeActor(this);
+				this.game.adjacentRooms[1].addActor(this);
 				this.game.setRoom(this.game.adjacentRooms[1]);
 			} else {
-				this.y = 0;
+				this.y = -0.5;
 			}
 		}
-		if (this.x > 14) {
+		if (this.x > 14.5) {
 			if (this.game.adjacentRooms[4]) {
-				this.x = 0;
+				this.x = -0.5;
+				this.room.removeActor(this);
+				this.game.adjacentRooms[4].addActor(this);
 				this.game.setRoom(this.game.adjacentRooms[4]);
 			} else {
-				this.x = 14;
+				this.x = 14.5;
 			}
 		}
-		if (this.y > 7) {
+		if (this.y > 7.5) {
 			if (this.game.adjacentRooms[6]) {
-				this.y = 0;
+				this.y = -0.5;
+				this.room.removeActor(this);
+				this.game.adjacentRooms[6].addActor(this);
 				this.game.setRoom(this.game.adjacentRooms[6]);
 			} else {
-				this.y = 7;
+				this.y = 7.5;
 			}
 		}
-		if (this.x < 0) {
+		if (this.x < -0.5) {
 			if (this.game.adjacentRooms[3]) {
-				this.x = 14;
+				this.x = 14.5;
+				this.room.removeActor(this);
+				this.game.adjacentRooms[3].addActor(this);
 				this.game.setRoom(this.game.adjacentRooms[3]);
 			} else {
-				this.x = 0;
+				this.x = -0.5;
 			}
 		}
 	});
