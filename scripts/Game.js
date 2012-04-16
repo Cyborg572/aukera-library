@@ -161,6 +161,8 @@
 	auk.Game.prototype.addActor = function (actor) {
 		// Let the actor know what game it's part of
 		actor.game = this;
+		actor.room = {};
+		actor.room.physics = new auk.Physics({gravity: 4, friction:0.3});
 
 		// Actually add the actor to the game
 		this.actors.push(actor);

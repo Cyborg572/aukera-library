@@ -63,8 +63,8 @@
 			65 : 'left',
 			32 : 'jump'
 		}))
-		.add(auk.physics.jump, {power: 35})
-		.add(auk.physics.motor, {speed: 6})
+		.add(auk.Physics.jump, {power: 35})
+		.add(auk.Physics.motor, {speed: 6})
 	);
 
 	player.updateSteps.push(function () {
