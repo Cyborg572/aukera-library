@@ -136,17 +136,26 @@
 	 */
 	auk.Game.prototype.__ajax_oldLoadRoom = auk.Game.prototype.loadRoom;
 	auk.Game.prototype.loadRoom = function (room) {
-		var game = this;
-		return game.__ajax_oldLoadRoom(room) || (auk.ajax ? game.loadObject(
-			'room', room,
-			function (data) {
-				game.bucket.rooms[room] = data;
-			},
-			function (data) {
-				alert("Could not load the next scene...");
-			},
-			{name: room}
-		) : false);
+		var game = this,
+		    newRoom = game.__ajax_oldLoadRoom(room);
+
+		// If the room wasn't in the bucket, make a new one and send it along,
+		// and let ajax fill in the data and initialize it later.
+		if (!newRoom) {
+			newRoom = new auk.Room(this);
+			game.loadObject(
+				'room',
+				room,
+				function (data) {
+					newRoom.init(data);
+					game.bucket.rooms[room] = newRoom;
+				}, function (data) {
+					alert("Could not load the next scene...");
+				}
+			);
+		}
+		
+		return newRoom;
 	};
 
 }(window.auk = window.auk || {}));
