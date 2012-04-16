@@ -58,9 +58,9 @@
 	 * 
 	 * @param game The game object itself
 	 */
-	auk.Terrain.prototype.roomEnter = function (game) {
+	auk.Terrain.prototype.roomEnter = function () {
 		// Just adjust all the heights
-		this.render(game.room);
+		this.render(this.room.data);
 	};
 
 	/**
@@ -70,7 +70,6 @@
 	 * @param room The room whose terrain needs rendering.
 	 */
 	auk.Terrain.prototype.render = function (room) {
-
 		// Variable declaration
 		var frag = document.createDocumentFragment(),
 		    width = this.width,
@@ -214,6 +213,27 @@
 			this.walls[3].style[auk.transform] = "translate3D(0, 0, 0) rotateY(-90deg)";
 		}
 
+	};
+
+	// ========================================================================
+	// Integrate terrain with the rest of the game systems.
+	// ========================================================================
+	
+	// Add the Terrain module to the list of modules.
+	auk.modules.push(auk.Terrain);
+
+	/**
+	 * Does terrain-related thing to rooms.
+	 * 
+	 * When a room is initialized, this function is called to add Terrain
+	 * capabilities.
+	 * 
+	 * @param room The room being initialized
+	 */
+	auk.Terrain.roomInit = function (room) {
+		if (room.data.terrain) {
+			room.terrain = room.addActor(new auk.Terrain(room.data.size[0], room.data.size[1], room.data.terrain));
+		}
 	};
 
 }(window.auk = window.auk || {}));
