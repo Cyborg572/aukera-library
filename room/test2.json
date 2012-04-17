@@ -4,13 +4,13 @@
 	"size":    [15, 8],
 	"adjacentRooms": [
 		false,
-		"test1",
 		false,
 		false,
 		false,
+		"test3",
 		false,
-		false,
-		false
+		"test5",
+		"test1"
 	],
 	"terrain": [
 		[0, 0, 0, 0, 0, 0, 0, 0],

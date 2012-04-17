@@ -15,14 +15,14 @@
 		gps:     [0, 0, 0],
 		size:    [15, 8],
 		adjacentRooms: [
-			false,
+			"test2",
 			"test3",
-			false,
-			false,
-			false,
-			false,
-			'test2',
-			false
+			"test4",
+			"test5",
+			"test6",
+			"test7",
+			"test8",
+			"test9"
 		],
 		terrain: [
 			[0, 0, 0, 0, 0, 0, 1, 0],
