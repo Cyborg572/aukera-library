@@ -1,6 +1,9 @@
-Aukera
-=================
+Aukera Library
+=============
 
-Aukera is an online game created as my thesis project for
-the Interactive media specialist course at Fanshawe College.
+This library is being developed primarily for use in the online game
+[Aukera][l1]. It's a modular collection of scripts that, when finshed, should
+provide many tools for quickly building many types of html/javascript based
+browser games.
 
+[li]: http://playaukera.com
