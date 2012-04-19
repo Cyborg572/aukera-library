@@ -32,5 +32,13 @@ html {
 	display: block; width: 1em; height: 1em;
 	border-radius: 0.5em;
 	.transform-origin(top left);
+	.transform-style(~"preserve-3d");
 	background: rgba(0,0,0, 0.5);
+
+	img {
+		position: absolute; bottom: 0.5em;
+		display: block; width: 1em; height: 1em;
+		.transform-origin(bottom center);
+		.transform(rotatex(-60deg));
+	}
 }
