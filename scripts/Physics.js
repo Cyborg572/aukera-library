@@ -27,7 +27,13 @@
 	 * This function should be added to an actor as a feature.
 	 */
 	auk.Physics.motor = function () {
-		var p = this.room.physics;
+		var p = this.room.physics,
+		    m = Math,
+		    t = this.room.data.terrain,
+		    x,
+		    y,
+		    g;
+		
 		if (this.controller.getState('up')) {
 			this.vector.add({x:0, y: -this.speed, z:0});
 		}
@@ -44,6 +50,30 @@
 		this.x += this.vector.x/100;
 		this.y += this.vector.y/100;
 		this.z += this.vector.z/100;
+
+		// Walls, sort of
+		x = m.floor(this.x);
+		y = m.floor(this.y);
+		if (x < 0) {
+			x = 0;
+		}
+		if (y < 0) {
+			y = 0;
+		}
+		g = m.max(
+			t[x][y],
+			x < 14 ? t[x+1][y] : t[x][y],
+			y < 7 ? t[x][y+1] : t[x][y],
+			(x < 14 && y < 7) ? t[x+1][y+1] : t[x][y]
+		)/2;
+		
+		if (g > this.z) {
+			this.x -= this.vector.x/100;
+			this.vector.x = 0;
+			this.y -= this.vector.y/100;
+			this.vector.y = 0;
+		}
+
 	};
 
 	/**
@@ -65,13 +95,33 @@
 	 * This function should be added to an actor as a feature.
 	 */
 	auk.Physics.jump = function () {
-		var p = this.room.physics;
-		if (this.controller.getState('jump') && this.z <= 0) {
+		var p = this.room.physics,
+		    m = Math,
+		    t = this.room.data.terrain,
+		    x = m.floor(this.x),
+		    y = m.floor(this.y),
+		    g;
+		
+		if (x < 0) {
+			x = 0;
+		}
+		if (y < 0) {
+			y = 0;
+		}
+		
+		g = m.max(
+			t[x][y],
+			x < 14 ? t[x+1][y] : t[x][y],
+			y < 7 ? t[x][y+1] : t[x][y],
+			(x < 14 && y < 7) ? t[x+1][y+1] : t[x][y]
+		)/2;
+		
+		if (this.controller.getState('jump') && this.z <= g) {
 			this.vector.add({x:0, y:0, z:this.jumpStrength});
-		} else if(this.z > 0) {
+		} else if(this.z > g) {
 			this.vector.add({x:0, y:0, z:-p.gravity});
-		} else if (this.z <= 0) {
-			this.z = 0;
+		} else if (this.z <= g) {
+			this.z = g;
 			this.vector.add({x:0, y:0, z:-this.vector.z});
 		}
 	};
