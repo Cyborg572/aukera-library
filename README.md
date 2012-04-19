@@ -6,4 +6,4 @@ This library is being developed primarily for use in the online game
 provide many tools for quickly building many types of html/javascript based
 browser games.
 
-[li]: http://playaukera.com
+[l1]: http://playaukera.com
