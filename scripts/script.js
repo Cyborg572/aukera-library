@@ -58,7 +58,7 @@
 	//terrain.render(game.room);
 
 	player = game.addActor(
-		(new auk.Actor(5,5,6))
+		(new auk.Actor(5,5,6, 'images/actor.png'))
 		.add(new auk.Keybinding({
 			87 : 'up',
 			68 : 'right',

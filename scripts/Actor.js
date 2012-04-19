@@ -24,12 +24,15 @@
 	 *
 	 */
 
-	auk.Actor = function (posx, posy, posz) {
+	auk.Actor = function (posx, posy, posz, image) {
 
 		// Position the actor
 		this.x = posx;
 		this.y = posy;
 		this.z = posz;
+
+		// Saves the path to the image
+		this.image = image;
 
 		// Game integration
 		this.game = null;
@@ -40,6 +43,11 @@
 		// Attach the HTML
 		this.html = document.createElement('div');
 		this.html.className = "actor";
+
+		// Add the image to the html
+		this.imageHTML = document.createElement('img');
+		this.imageHTML.src = this.image;
+		this.html.appendChild(this.imageHTML);
 
 	};
 
