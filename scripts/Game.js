@@ -210,7 +210,10 @@
 	 * @param actor: the actor to remove from the game
 	 */
 	auk.Game.prototype.removeActor = function (actor) {
-		
+
+		// Remove the actor from it's room
+		actor.room.removeActor(actor);
+
 	};
 
 	// ========================================================================
