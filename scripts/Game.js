@@ -1,8 +1,8 @@
 /*
  * ---------------------------------------------------------------------------
- *	Game.js
- *	This file creates the core of the game engine, including the actor
- *	listing, and update loop. Room objects are also included here, since they
+ *  Game.js
+ *  This file creates the core of the game engine, including the actor
+ *  listing, and update loop. Room objects are also included here, since they
  *  are a core part of the game engine.
  * ---------------------------------------------------------------------------
  */
@@ -14,42 +14,24 @@
 	// "Global" variables
 	auk.modules = [];
 
-	// Temporary fix for cross-browser 3D transforms
-	auk.transform = (function(){
-		var test = document.getElementsByTagName('script')[0];
-		
-		if ("transform" in test.style) {
-			return "transform";
-		} else if ("WebkitTransform" in test.style) {
-			return "WebkitTransform";
-		} else if ("MozTransform" in test.style) {
-			return "MozTransform";
-		} else if ("OTransform" in test.style) {
-			return "OTransform";
-		} else if ("mTransform" in test.style) {
-			return "mTransform";
-		} else {
-			alert("Your browser does not support CSS 3D transforms");
-			window.location.href = "/";
-		}
-		
-	}());
-
 	/**
 	 * Game constructor
 	 *
-	 * @param display the DOM object that will become the container for the game
-	 * @param grid    the size of the game's grid, in pixels.
+	 * @param display   The DOM object that will become the container for the game
+	 * @param grid      The size of the game's grid, in pixels.
+	 * @param startRoom The first room of the game.
 	 */
 	auk.Game = function (display, grid, startRoom) {
 
 		// Global game variables
 		this.actors = []; // Stores dynamic game objects
 		this.grid = grid; // The size of 1 grid unit
+
 		// Storage for game objects not in use.
 		this.bucket = {
 			rooms:{}
 		};
+
 		// Eight adjacent rooms, false means there's nothing loaded there yet.
 		this.adjacentRooms = [
 			false, false, false, false, false, false, false, false
@@ -70,18 +52,12 @@
 	/*
 	 * Update function
 	 *
-	 * This function runs through all the actors in the game, and calls their
-	 * update function. When it's done it calls itself again with a 0 timeout.
+	 * This function runs through all the high-level objects in the game that
+	 * have update functions. Just the main room at this point in time. Future
+	 * updates will probably abstract this a bit more.
 	 */
 	auk.Game.prototype.update = function () {
-		var actorCount = this.actors.length,
-			that = this,
-		    i;
-
-		// Run all the update functions
-		/*for (i = 0; i < actorCount; i += 1) {
-			if (this.actors[i].update) { this.actors[i].update(); }
-		}*/
+		var that = this;
 
 		this.room.update();
 
@@ -185,7 +161,9 @@
 	/**
 	 * addActor
 	 *
-	 * Registers a new actor to be updated during the main loop
+	 * Registers a new actor to be updated during the main loop. Actors can be
+	 * added to any room object, but if no room is specified then the active
+	 * room will be used.
 	 *
 	 * @param actor The actor to be added
 	 * @param room  (optional) The room to add the actor to
@@ -196,6 +174,9 @@
 		actor.game = this;
 
 		// Add the actor to the game
+		this.actors.push(actor);
+
+		// Add the actor to the right room
 		(room || this.room).addActor(actor);
 
 		// Return the actor, makes for a nicer API
@@ -205,7 +186,8 @@
 	/*
 	 * removeActor
 	 *
-	 * Removes an actor from the game
+	 * Removes an actor from the game, by passing the command on to the room
+	 * the actor is in, and then removing from the actors array.
 	 *
 	 * @param actor: the actor to remove from the game
 	 */
@@ -213,6 +195,9 @@
 
 		// Remove the actor from it's room
 		actor.room.removeActor(actor);
+
+		// Remove the actor from the game
+		this.actors.splice(this.actors.indexOf(actor), 1);
 
 	};
 
@@ -226,10 +211,13 @@
 	 * @param game The game this room will be used in.
 	 */
 	auk.Room = function (game) {
-		this.game = game;
-		this.data = false;
-		this.initialized = false;
-		this.actors = [];
+		this.game = game; // The game this room belongs to
+		this.data = false; // The room data from the server
+		this.initialized = false; // Whether or not the room is initialized
+		this.actors = []; // All the actors in the room
+
+		// Stores the rooms surrounding this room.
+		// TODO: Actually store the rooms surrounding this room.
 		this.toThe = {
 			ne: false,
 			n:  false,
