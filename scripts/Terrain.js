@@ -1,3 +1,6 @@
+/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
+"use strict"; var auk = auk || {};
+
 /**
  * Terrain Rendering and management
  *
@@ -5,9 +8,6 @@
  * room objects. It half-emulates an actor in order to listen to the events
  * that it needs.
  */
-
-"use strict";
-var auk = window.auk || {};
 
 // =======================================================================
 //  Create the Terrain constructor

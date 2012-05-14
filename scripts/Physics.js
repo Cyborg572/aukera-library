@@ -1,13 +1,12 @@
-/*jslint browser: true, devel: true */
+/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
+"use strict"; var auk = auk || {};
+
 /*
  * ---------------------------------------------------------------------------
  *  Physics.js
  *  This file extends the game engine to various physics-based functions. 
  * ---------------------------------------------------------------------------
  */
-
-"use strict";
-var auk = window.auk || {};
 
 /**
  * The physics constructor

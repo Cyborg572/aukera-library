@@ -1,13 +1,12 @@
-/*jslint browser: true, devel: true */
+/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
+"use strict"; var auk = auk || {};
+
 /**
  * ---------------------------------------------------------------------------
  *  Actor.js
  *  This file defines a basic Actor object that can be inherited from
  * ---------------------------------------------------------------------------
  */
-
-"use strict";
-var auk = window.auk || {};
 
 // =======================================================================
 //  Create the Map constructor

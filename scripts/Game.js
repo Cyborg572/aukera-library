@@ -1,3 +1,6 @@
+/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
+"use strict"; var auk = auk || {};
+
 /*
  * ---------------------------------------------------------------------------
  *  Game.js
@@ -6,9 +9,6 @@
  *  are a core part of the game engine.
  * ---------------------------------------------------------------------------
  */
-
-"use strict";
-var auk = window.auk || {};
 
 // "Global" variables
 auk.modules = [];

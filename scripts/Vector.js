@@ -1,4 +1,6 @@
-/*jslint browser: true, devel: true */
+/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
+"use strict"; var auk = auk || {};
+
 /**
  * Vector.js
  * This file extends the game engine with functions and objects for dealing with
@@ -11,9 +13,6 @@
  * only be used if needed. Built in limits are still probably faster than doing
  * them externally, but that's just an assumption.
  */
-
-"use strict";
-var auk = window.auk || {};
 
 // =======================================================================
 //  Create the Vector constructor

@@ -1,13 +1,12 @@
-/*jslint browser: true, devel: true */
+/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
+"use strict"; var auk = auk || {};
+
 /*
  * ---------------------------------------------------------------------------
  *  Ajax.js
  *  This file extends the game object with AJAX capabilities. 
  * ---------------------------------------------------------------------------
  */
-
-"use strict";
-var auk = window.auk || {};
 
 // ========================================================================
 //  SETUP

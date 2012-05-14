@@ -1,4 +1,6 @@
-/*jslint browser: true, devel: true */
+/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
+"use strict"; var auk = auk || {};
+
 /*
  * ---------------------------------------------------------------------------
  *  Keybinding.js
@@ -7,9 +9,6 @@
  *  but merely tracks and updates the keyboard state for objects that do.
  * ---------------------------------------------------------------------------
  */
-
-"use strict";
-var auk = window.auk || {};
 
 // =======================================================================
 //  Private Properties
