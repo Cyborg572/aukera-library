@@ -11,46 +11,6 @@
  */
 
 // =======================================================================
-//  Private Properties
-// =======================================================================
-
-var bindings = [];
-
-// =======================================================================
-//  Private Methods
-// =======================================================================
-
-/**
- * keyHandler()
- *
- * An event listener that can be tied to window's keydown and keyup event
- * to update all the bindings.
- *
- * @param e: The keyboard event. 
- */
-function keyHandler(e) {
-	// Get e even if IE hides it
-	e = e || window.event;
-
-	var key = e.keyCode || e.which;
-	var bindingCount = bindings.length;
-	var b;
-	var i;
-
-	// Check all the binding objects to see if they want this keys state
-	for (i = 0; i < bindingCount; i += 1) {
-		b = bindings[i];
-		if (key in b.keymap) {
-			// Stop the browser from using this key
-			e.preventDefault();
-			// Set the keys state based on the event type
-			b.setState(b.keymap[key], e.type === 'keydown');
-		}
-	}
-
-}
-
-// =======================================================================
 //  Create the keybinding constructor
 // =======================================================================
 
@@ -77,9 +37,53 @@ auk.Keybinding = function (keymap) {
 	}
 
 	// Add this binding to the list
-	bindings.push(this);
+	auk.Keybinding.bindings.push(this);
 
 };
+
+// =======================================================================
+//  Static Properties
+// =======================================================================
+
+auk.Keybinding.bindings = [];
+
+// =======================================================================
+//  Static Methods
+// =======================================================================
+
+/**
+ * keyHandler()
+ *
+ * An event listener that can be tied to window's keydown and keyup event
+ * to update all the bindings.
+ *
+ * @param e: The keyboard event.
+ */
+auk.Keybinding.keyHandler = function (e) {
+	// Get e even if IE hides it
+	e = e || window.event;
+
+	var key = e.keyCode || e.which;
+	var bindingCount = auk.Keybinding.bindings.length;
+	var b;
+	var i;
+
+	// Check all the binding objects to see if they want this keys state
+	for (i = 0; i < bindingCount; i += 1) {
+		b = auk.Keybinding.bindings[i];
+		if (key in b.keymap) {
+			// Stop the browser from using this key
+			e.preventDefault();
+			// Set the keys state based on the event type
+			b.setState(b.keymap[key], e.type === 'keydown');
+		}
+	}
+
+};
+
+// =======================================================================
+//  Public Methods
+// =======================================================================
 
 /**
  * auk.Keybinding#getState()
@@ -96,7 +100,7 @@ auk.Keybinding.prototype.getState = function (state) {
 		// Return the actual state
 		return this.states[state];
 	}
-	
+
 };
 
 /**
@@ -138,8 +142,8 @@ auk.Keybinding.prototype.addTo = function (actor) {
  * this library needs in order to function.
  */
 auk.Keybinding.init = function () {
-	window.onkeydown = keyHandler;
-	window.onkeyup = keyHandler;
+	window.onkeydown = auk.Keybinding.keyHandler;
+	window.onkeyup = auk.Keybinding.keyHandler;
 };
 
 // Add this library to the init queue
