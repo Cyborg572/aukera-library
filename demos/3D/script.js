@@ -9,7 +9,7 @@
 	    test2,
 	    room,
 	    player;
-	
+
 	test1 = {
 		name:    "test1",
 		gps:     [0, 0, 0],
@@ -46,7 +46,7 @@
 	// Temporary fix for cross-browser 3D transforms
 	auk.transform = (function(){
 		var test = document.getElementsByTagName('script')[0];
-		
+
 		if ("transform" in test.style) {
 			return "transform";
 		} else if ("WebkitTransform" in test.style) {
@@ -61,11 +61,13 @@
 			alert("Your browser does not support CSS 3D transforms");
 			window.location.href = "/";
 		}
-		
+
 	}());
 
 	// Start a game
 	game = new auk.Game(document.getElementById('display'), 64, "test1");
+
+	game.ajaxSettings.server = '.';
 
 	game.physics = new auk.Physics({gravity: 4, friction: 0.3});
 
@@ -75,7 +77,7 @@
 	game.init();
 
 	//game.addActor(terrain);
-	
+
 	//terrain.render(game.room);
 
 	player = game.addActor(
