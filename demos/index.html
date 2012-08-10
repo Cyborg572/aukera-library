@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html class="no-js">
+	<head>
+		<meta enctype="utf-8">
+		<title>Aukera Basics</title>
+		<style>
+			#display {
+				position: relative;
+				width: 20em; height: 15em;
+				background: skyblue;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Aukera Free Play</h1>
+		<div id="display"></div>
+		<p>
+			This page contains nothing but the core Aukera library file
+			(aukera.js) and a big blue div. Use your browser's console to test
+			out the library.
+		</p>
+		<p>
+			A game (called <code>game</code>) has already been initialized with
+			a 32px grid.
+		</p>
+		<script src="../../aukera.js"></script>
+		<script>
+			var game = new auk.Game(32);
+			document.getElementById('display').style.fontSize = game.grid + 'px';
+		</script>
+	</body>
+</html>
