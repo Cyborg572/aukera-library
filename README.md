@@ -1,3 +1,6 @@
+Please note: This library is currently undergoing a bit of a rewite, which may
+leave the examples and some of the less well planned modules out of commision.
+
 Aukera Library
 =============
 
