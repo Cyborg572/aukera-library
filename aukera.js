@@ -13,60 +13,130 @@
 // "Global" variables
 auk.modules = [];
 
+
+// ========================================================================
+//  The Gob Object
+// ========================================================================
+
 /**
- * Game constructor
+ * The Gob object is an array of gobs with some extra methods for handling it's
+ * children, including adding, removing, and passing along events.
+ */
+auk.Gob = function () {};
+auk.Gob.prototype = [];
+
+/**
+ * Dispatches a given game event to the appropriate method, and then calls
+ * gameEvent again on all child gobs. If the children are not Gobs, it falls
+ * back on calling a function with the event name.
+ *
+ * @param  {string} eventName The name of the event to trigger
+ * @return {}
+ */
+auk.Gob.prototype.gameEvent = function (eventName) {
+	var gobCount = this.length;
+	var gob;
+	var i;
+
+	if (this[eventName]) {
+		this[eventName]();
+	}
+
+	for (i = 0; i < gobCount; i += 1) {
+		gob = this[i];
+		if (gob.gameEvent) {
+			gob.gameEvent(eventName);
+		} else if (gob[eventName]) {
+			gob[eventName]();
+		}
+	}
+
+	return this;
+};
+
+/**
+ * Adds a child gob. Removes it from it's former parent if necessary.
+ *
+ * @param gob The gob to be added
+ * @return The gob that was added.
+ */
+auk.Gob.prototype.addGob = function (gob) {
+	// Remove from existing parent
+	if (gob.parentGob && gob.parentGob.removeGob) {
+		gob.parentGob.removeGob(gob);
+	}
+
+	// Add the gob
+	gob.game = this.game;
+	gob.parentGob = this;
+	this.push(gob);
+
+	return this;
+};
+
+/**
+ * Removes a child gob.
+ *
+ * @param gob: the child gob to remove
+ */
+auk.Gob.prototype.removeGob = function (gob) {
+	var gobPos = this.indexOf(gob);
+
+	if (gobPos !== -1) {
+		delete gob.game;
+		delete gob.parentGob;
+		this.splice(gobPos, 1);
+	}
+
+	return this;
+};
+
+// ========================================================================
+//  The Game Object
+// ========================================================================
+
+/**
+ * The Game object is a special Gob that calls it's own gameEvent function, and
+ * can initialize modules. It also stores the grid size, and the global-esque
+ * storage bucket.
  *
  * @param display   The DOM object that will become the container for the game
  * @param grid      The size of the game's grid, in pixels.
- * @param startRoom The first room of the game.
  */
-auk.Game = function (display, grid, startRoom) {
+auk.Game = function (grid) {
 
 	// Global game variables
-	this.actors = []; // Stores dynamic game objects
 	this.grid = grid; // The size of 1 grid unit
+	this.loopSteps = ['update']; // Mainloop sequence
+	this.bucket = {}; // Storage for game objects not in use.
 
-	// Storage for game objects not in use.
-	this.bucket = {
-		rooms:{}
-	};
+	// Since a Game is also a Gob, it needs to reference itself
+	this.game = this;
 
-	// Eight adjacent rooms, false means there's nothing loaded there yet.
-	this.adjacentRooms = [
-		false, false, false, false, false, false, false, false
-	];
-
-	this.room = startRoom; // The first room to load
-
-	// Configure the HTML and css
-	this.display = display;
-	this.layers = {};
-	this.display.className += " auk_display";
-	this.display.style.fontSize = this.grid+'px';
-	this.world = document.createElement('div');
-	this.world.className = "auk_world";
-	this.display.appendChild(this.world);
 };
 
+// Set the Game prototype to be a Gob.
+auk.Game.prototype = new auk.Gob();
+
 /**
- * Update function
- *
- * This function runs through all the high-level objects in the game that
- * have update functions. Just the main room at this point in time. Future
- * updates will probably abstract this a bit more.
+ * This method runs through the updated steps defined for this game and passes
+ * them in sequence to gameEvent.
  */
-auk.Game.prototype.update = function () {
-	var that = this;
+auk.Game.prototype.mainLoop = function () {
+	var stepCount = this.loopSteps.length;
+	var game = this;
+	var i;
 
-	this.room.update();
+	// Run all the update functions
+	for (i = 0; i < stepCount; i += 1) {
+		this.gameEvent(this.loopSteps[i]);
+	}
 
-	// Run update again as soon as possible
-	setTimeout(function() {that.update();}, 30);
+	// Run update again in 30ms
+	setTimeout(function() {game.mainLoop();}, 30);
 };
 
 /**
- * Init function
- *
  * Calls the initialize functions for every extension, and starts the
  * main update loop
  */
@@ -79,246 +149,8 @@ auk.Game.prototype.init = function () {
 		if (auk.modules[i].init) { auk.modules[i].init(this); }
 	}
 
-	// Set the first room
-	this.setRoom(this.loadRoom(this.room));
-
 	// Start the main loop
-	this.update();
-
-};
-
-/**
- * Sets the room that game will use.
- *
- * @param room An object with all the room data.
- */
-auk.Game.prototype.setRoom = function (room) {
-	var actorCount = room.actors.length;
-	var i;
-
-	// Remove the old room from the screen
-	if (this.room.html) {
-		this.world.removeChild(this.room.html);
-	}
-
-	// Remove the old adjacent rooms
-	for (i = 0; i < 8; i +=1) {
-		if (this.adjacentRooms[i].html) {
-			this.adjacentRooms[i].html.style[auk.transform] = "";
-			this.world.removeChild(this.adjacentRooms[i].html);
-		}
-	}
-
-	// Load the new room.
-	this.room = room;
-	this.world.appendChild(this.room.html);
-
-	// Start loading the adjacent rooms.
-	this.loadAdjacentRooms();
-
-	var transforms = [
-		"Translate3D(-15em, -8em, 0)",
-		"Translate3D(  0em, -8em, 0)",
-		"Translate3D( 15em, -8em, 0)",
-		"Translate3D(-15em,  0em, 0)",
-		"Translate3D( 15em,  0em, 0)",
-		"Translate3D(-15em,  8em, 0)",
-		"Translate3D(  0em,  8em, 0)",
-		"Translate3D( 15em,  8em, 0)"
-	];
-
-	for (i = 0; i < 8; i +=1) {
-		if (this.adjacentRooms[i] && this.adjacentRooms[i].html) {
-			this.world.appendChild(this.adjacentRooms[i].html);
-			this.adjacentRooms[i].html.style[auk.transform] = transforms[i];
-		}
-	}
-
-};
-
-/**
- * Downloads the new rooms from the server.
- */
-auk.Game.prototype.loadAdjacentRooms = function () {
-	var a = this.room.data.adjacentRooms || [false, false, false, false, false, false, false, false];
-	var i;
-
-	for (i = 0; i < 8; i +=1) {
-		this.adjacentRooms[i] = a[i] ? this.loadRoom(a[i]) : false;
-	}
-};
-
-/**
- * Loads a room from the bucket.
- *
- * @param room The name of the room to load
- */
-auk.Game.prototype.loadRoom = function (room) {
-	return this.bucket.rooms[room] || false;
-};
-
-/**
- * addActor
- *
- * Registers a new actor to be updated during the main loop. Actors can be
- * added to any room object, but if no room is specified then the active
- * room will be used.
- *
- * @param actor The actor to be added
- * @param room  (optional) The room to add the actor to
- * @return The actor that was added.
- */
-auk.Game.prototype.addActor = function (actor, room) {
-	// Let the actor know what game it's part of
-	actor.game = this;
-
-	// Add the actor to the game
-	this.actors.push(actor);
-
-	// Add the actor to the right room
-	(room || this.room).addActor(actor);
-
-	// Return the actor, makes for a nicer API
-	return actor;
-};
-
-/**
- * removeActor
- *
- * Removes an actor from the game, by passing the command on to the room
- * the actor is in, and then removing from the actors array.
- *
- * @param actor: the actor to remove from the game
- */
-auk.Game.prototype.removeActor = function (actor) {
-
-	// Remove the actor from it's room
-	actor.room.removeActor(actor);
-
-	// Remove the actor from the game
-	this.actors.splice(this.actors.indexOf(actor), 1);
-
-};
-
-// ========================================================================
-//  The Room Object
-// ========================================================================
-
-/**
- * Room constructor function
- *
- * @param game The game this room will be used in.
- */
-auk.Room = function (game) {
-	this.game = game; // The game this room belongs to
-	this.data = false; // The room data from the server
-	this.initialized = false; // Whether or not the room is initialized
-	this.actors = []; // All the actors in the room
-
-	// Stores the rooms surrounding this room.
-	// TODO: Actually store the rooms surrounding this room.
-	this.toThe = {
-		ne: false,
-		n:  false,
-		nw: false,
-		w:  false,
-		sw: false,
-		s:  false,
-		se: false,
-		e:  false
-	};
-	
-	// Create the room HTML
-	this.html = document.createElement('div');
-	this.html.className = "room";
-};
-
-/**
- * Initializes a room
- *
- * @param data New map data for the room
- * @return The room itself.
- */
-auk.Room.prototype.init = function (data) {
-	var mCount = auk.modules.length;
-	var aCount;
-	var i;
-
-	this.data = data;
-
-	// Give all the modules a chance to parse the room.
-	for (i = 0; i < mCount; i += 1) {
-		if (auk.modules[i].roomInit) {
-			auk.modules[i].roomInit(this);
-		}
-	}
-
-	// Initialize all the actors
-	aCount = this.actors.length; 
-	for (i = 0; i < aCount; i += 1) {
-		if (this.actors[i].roomEnter) {
-			this.actors[i].roomEnter();
-		}
-	}
-	this.initialized = true;
+	this.mainLoop();
 
 	return this;
-};
-
-/**
- * Calls all the update functions of the actors
- */
-auk.Room.prototype.update = function () {
-	var actorCount = this.actors.length;
-	var i;
-
-	// Run all the update functions
-	for (i = 0; i < actorCount; i += 1) {
-		if (this.actors[i].update) { this.actors[i].update(); }
-	}
-};
-
-/**
- * Pauses everything in a room
- */
-auk.Room.prototype.freeze = function () {
-};
-
-/**
- * Starts everything in a room again
- *
- * @param game The game this room is being thawed for.
- */
-auk.Room.prototype.thaw = function (game) {
-};
-
-/**
- * addActor
- *
- * Registers a new actor to be updated during the main loop. Usually called
- * after the actor has already been added to the game.
- *
- * @param actor The actor to be added
- * @return The actor that was added.
- */
-auk.Room.prototype.addActor = function (actor) {
-	// Let the actor know what room it's part of
-	actor.room = this;
-
-	// Actually add the actor to the game
-	this.actors.push(actor);
-	this.html.appendChild(actor.html);
-
-	// Return the actor, makes for a nicer API
-	return actor;
-};
-
-/**
- * Removes an actor from a room
- *
- * @param actor The actor to remove
- */
-auk.Room.prototype.removeActor = function (actor) {
-	this.html.removeChild(actor.html);
-	this.actors.splice(this.actors.indexOf(actor), 1);
 };
