@@ -3,14 +3,11 @@
 
 /**
  * ---------------------------------------------------------------------------
- *  Actor.js
+ *  Actor
+ *
  *  This file defines a basic Actor object that can be inherited from
  * ---------------------------------------------------------------------------
  */
-
-// =======================================================================
-//  Create the Map constructor
-// =======================================================================
 
 /**
  * Constructor for actor objects
@@ -34,7 +31,7 @@ auk.Actor = function (posx, posy, posz, image) {
 	this.game = null;
 
 	// feature mixin support
-	this.updateSteps = [];
+	this.eventSteps = {};
 
 	// Attach the HTML
 	this.html = document.createElement('div');
@@ -45,28 +42,60 @@ auk.Actor = function (posx, posy, posz, image) {
 	this.imageHTML.src = this.image;
 	this.html.appendChild(this.imageHTML);
 
+/**
+ * Adds a new step function to execute for a given game event.
+ *
+ * @param {string}   eventName    The name of the event to add the function to.
+ * @param {function} stepFunction The function to call.
+ */
+auk.Actor.prototype.addEventStep = function (eventName, stepFunction) {
+	if (!this.eventSteps.hasOwnProperty(eventName)) {
+		this.eventSteps[eventName] = [];
+	}
+	this.eventSteps[eventName].push(stepFunction);
+	return this;
 };
 
 /**
- * Does the processing the actor needs to do every frame.
+ * Removes the given function from the given event.
  *
- * @param delay: the number of milliseconds to wait
+ * @param  {sting}    eventName    The name of the event to remove the function
+ *                                 from.
+ * @param  {function} stepFunction The function to remove.
  */
-auk.Actor.prototype.update = function () {
+auk.Actor.prototype.removeEventStep = function (eventName, stepFunction) {
+	var functionIndex;
+	if (this.eventSteps[eventName]) {
+		functionIndex = this.eventSteps[eventName].indexOf(stepFunction);
+		if (functionIndex !== -1) {
+			this.eventSteps[eventName].splice(functionIndex, 1);
+		}
+	}
+	return this;
+};
 
-	// Make a copy of this for callbacks
+/**
+ * Handels game events by running through the steps defined for those events.
+ *
+ * @param {eventName} The name of the event to react to.
+ */
+auk.Actor.prototype.fireGameEvent = function (eventName) {
+	var steps;
+	var stepCount;
 	var i;
-	var steps = this.updateSteps;
-	var sCount = steps.length;
 
-	// Apply the features
-	for (i = 0; i < sCount; i += 1) {
-		steps[i].call(this);
+	if (this.eventSteps[eventName]) {
+		steps = this.eventSteps[eventName];
+		stepCount = steps.length;
+		for (i = 0; i < stepCount; i += 1) {
+			steps[i].call(this);
+		}
 	}
 
 	// Render the element in it's new location'
 	this.html.style[auk.transform] = "translate3D("+(this.x)+"em, "+(this.y)+"em, "+(this.z)+"em) rotateX(0deg)";
 
+	return this;
 };
 
 /**
@@ -82,6 +111,23 @@ auk.Actor.prototype.add = function (feature, options) {
 
 	if (feature.addTo) {
 		feature.addTo(this, options);
+	}
+
+	return this;
+};
+
+/**
+ * Removes a feature from the object
+ *
+ * This is accomplished by calling the features removeFrom function with this
+ * object. Using remove() on the actor allows chaining.
+ *
+ * @param  {feature} feature The feature to remove
+ */
+auk.Actor.prototype.remove = function (feature) {
+
+	if (feature.removeFrom) {
+		feature.removeFrom(this);
 	}
 
 	return this;
