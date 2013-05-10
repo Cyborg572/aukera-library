@@ -1,5 +1,7 @@
-/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
-"use strict"; var auk = auk || {};
+/*jshint browser:true */
+
+"use strict";
+var auk = auk || {};
 
 /**
  * -----------------------------------------------------------------------------
@@ -17,7 +19,8 @@ auk.dom2D = {};
  */
 auk.dom2D.draw = function () {
 	var data;
-	var transform = "";
+	var backgroundX;
+	var backgroundY;
 
 	this.html.style.left = this.x + "px";
 	this.html.style.top = this.y + "px";
@@ -37,8 +40,10 @@ auk.dom2D.draw = function () {
 
 	if (this.sprite) {
 		data = this.sprite.tick().getFrameData();
+		backgroundX = '-' + data[1][0] + 'px';
+		backgroundY = '-' + data[1][1] + 'px';
 		this.html.style.backgroundImage = 'url(' + data[0] + ')';
-		this.html.style.backgroundPosition = '-' + data[1][0] + 'px -' + data[1][1] + 'px';
+		this.html.style.backgroundPosition = backgroundX + ' ' + backgroundY;
 		this.html.style.width = data[1][2] + 'px';
 		this.html.style.height = data[1][3] + 'px';
 	}

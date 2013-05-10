@@ -1,5 +1,7 @@
-/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
-"use strict"; var auk = auk || {};
+/*jshint browser:true*/
+
+"use strict";
+var auk = auk || {};
 
 /**
  * Terrain Rendering and management
@@ -19,7 +21,6 @@
  * @param mapData An object containing all the data for the map
  */
 auk.Terrain = function (width, height, startTerrain) {
-	var tile;
 	var x;
 	var y;
 
@@ -172,6 +173,10 @@ auk.Terrain.Tile = function (x, y) {
  * @param a An array containing the heights of the adjacent tiles
  */
 auk.Terrain.Tile.prototype.setHeight = function (h, a) {
+
+	var translation;
+	var rotation;
+
 	// Move the Cap to the right height
 	this.cap.style[auk.transform] = "translate3D(0px, 0px, "+(h/2)+"em)";
 
@@ -179,7 +184,9 @@ auk.Terrain.Tile.prototype.setHeight = function (h, a) {
 	// North
 	if (h > a[0]) {
 		this.walls[0].style.height = (h - a[0]) / 2 + 'em';
-		this.walls[0].style[auk.transform] = "translate3D(0, 0, " + a[0]/2 + "em) rotateX(90deg)";
+		translation = "translate3D(0, 0, " + a[0]/2 + "em)";
+		rotation = " rotateX(90deg)";
+		this.walls[0].style[auk.transform] = translation + " " + rotation;
 	} else {
 		this.walls[0].style.height = 0;
 	}
@@ -187,7 +194,9 @@ auk.Terrain.Tile.prototype.setHeight = function (h, a) {
 	// East
 	if (h > a[1]) {
 		this.walls[1].style.width = (h - a[1]) / 2 + 'em';
-		this.walls[1].style[auk.transform] = "translate3D(0, 0, " + a[1]/2 + "em) rotateY(90deg)";
+		translation = "translate3D(0, 0, " + a[1]/2 + "em)";
+		rotation = " rotateY(90deg)";
+		this.walls[1].style[auk.transform] = translation + " " + rotation;
 	} else {
 		this.walls[1].style.width = 0;
 		this.walls[1].style[auk.transform] = "translate3D(0, 0, 0) rotateY(90deg)";
@@ -196,7 +205,9 @@ auk.Terrain.Tile.prototype.setHeight = function (h, a) {
 	// South
 	if (h > a[2]) {
 		this.walls[2].style.height = (h - a[2]) / 2 + 'em';
-		this.walls[2].style[auk.transform] = "translate3D(0, 0, " + a[2]/2 + "em) rotateX(-90deg)";
+		translation = "translate3D(0, 0, " + a[2]/2 + "em)";
+		rotation = "rotateX(-90deg)";
+		this.walls[2].style[auk.transform] = translation + " " + rotation;
 	} else {
 		this.walls[2].style.height = 0;
 		this.walls[2].style[auk.transform] = "translate3D(0, 0, 0) rotateX(-90deg)";
@@ -205,10 +216,12 @@ auk.Terrain.Tile.prototype.setHeight = function (h, a) {
 	// West
 	if (h > a[3]) {
 		this.walls[3].style.width = (h - a[3]) / 2 + 'em';
-		this.walls[3].style[auk.transform] = "translate3D(0, 0, " + a[3]/2 + "em) rotateY(-90deg)";
+		translation = "translate3D(0, 0, " + a[3]/2 + "em)";
+		rotation = "rotateY(-90deg)";
+		this.walls[3].style[auk.transform] = translation + " " + rotation;
 	} else {
 		this.walls[3].style.width = 0;
-		this.walls[3].style[auk.transform] = "translate3D(0, 0, 0) rotateY(-90deg)";
+		this.walls[3].style[auk.transform] = "translate3D(0, 0, 0) rotateY(-90deg)  ";
 	}
 
 };
@@ -230,6 +243,10 @@ auk.modules.push(auk.Terrain);
  */
 auk.Terrain.roomInit = function (room) {
 	if (room.data.terrain) {
-		room.terrain = room.addActor(new auk.Terrain(room.data.size[0], room.data.size[1], room.data.terrain));
+		room.terrain = room.addActor(new auk.Terrain(
+			room.data.size[0],
+			room.data.size[1],
+			room.data.terrain
+		));
 	}
 };

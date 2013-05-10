@@ -1,5 +1,5 @@
-/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
-"use strict"; var auk = auk || {};
+"use strict";
+var auk = auk || {};
 
 /**
  * The Sprite constructor builds an object that provides image data a display

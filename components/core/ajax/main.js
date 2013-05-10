@@ -1,10 +1,13 @@
-/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
-"use strict"; var auk = auk || {};
+/*jshint browser:true*/
+/*global ActiveXObject:true, alert:true */
+
+"use strict";
+var auk = auk || {};
 
 /*
  * ---------------------------------------------------------------------------
  *  Ajax.js
- *  This file extends the game object with AJAX capabilities. 
+ *  This file extends the game object with AJAX capabilities.
  * ---------------------------------------------------------------------------
  */
 
@@ -86,7 +89,7 @@ auk.ajax = function (method, url, callback, error, data) {
  * to return a dummy object that will be populated when the request is
  * fulfilled.
  *
- * @param type     The Type of object to request. 
+ * @param type     The Type of object to request.
  * @param id       An identifier for the object
  * @param callback A function to pass the returned object to.
  * @param error    A function to call if the request goes bad.
@@ -134,10 +137,10 @@ auk.Game.prototype.loadObject = function (type, id, callback, error, dummy) {
  *
  * @param room The name of the room to load
  */
-auk.Game.prototype.__ajax_oldLoadRoom = auk.Game.prototype.loadRoom;
+auk.Game.prototype.__ajaxOldLoadRoom = auk.Game.prototype.loadRoom;
 auk.Game.prototype.loadRoom = function (room) {
 	var game = this;
-	var newRoom = game.__ajax_oldLoadRoom(room);
+	var newRoom = game.__ajaxOldLoadRoom(room);
 
 	// If the room wasn't in the bucket, make a new one and send it along,
 	// and let ajax fill in the data and initialize it later.
@@ -154,6 +157,6 @@ auk.Game.prototype.loadRoom = function (room) {
 			}
 		);
 	}
-	
+
 	return newRoom;
 };
