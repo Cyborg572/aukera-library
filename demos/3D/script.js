@@ -1,13 +1,13 @@
+/*jshint browser:true */
+/*global alert:true*/
+
 (function (auk) {
 
 	"use strict";
 
 	// Create a test map to use until more of this project is built
 	var game,
-	    terrain,
 	    test1,
-	    test2,
-	    room,
 	    player;
 
 	test1 = {
@@ -141,7 +141,13 @@
 	 * Temporary camera update function
 	 */
 	player.updateSteps.push(function () {
-		this.game.world.style[auk.transform] = "translate3D("+(-(this.x-7.5))+"em, "+(-((this.y-4)/2)+this.z)+"em, "+(-((this.y-4)/2)-this.z)+"em) rotateX(45deg)";
+		var x = this.x - 7.5;
+		var y = ((this.y - 4) / 2) + this.z;
+		var z = ((this.y - 4) / 2) - this.z;
+		var translation = "translate3D(" + x + "em, " + y + "em, " + z + "em)";
+		var rotation = "rotateX(45deg)";
+
+		this.game.world.style[auk.transform] = translation + " " + rotation;
 	});
 
 }(window.auk = window.auk || {}));

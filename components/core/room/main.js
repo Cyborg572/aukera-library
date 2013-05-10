@@ -1,5 +1,7 @@
-/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
-"use strict"; var auk = auk || {};
+/*jshint browser:true */
+
+"use strict";
+var auk = auk || {};
 
 // ========================================================================
 //  The Room Object

@@ -1,0 +1,14 @@
+{
+  "name": "aukera",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.4.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Cyborg572/aukera-library.git"
+  },
+  "author": "Mike Gossmann",
+  "license": "MIT"
+}

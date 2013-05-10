@@ -1,10 +1,10 @@
-/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
-"use strict"; var auk = auk || {};
+"use strict";
+var auk = auk || {};
 
 /*
  * ---------------------------------------------------------------------------
  *  Physics.js
- *  This file extends the game engine to various physics-based functions. 
+ *  This file extends the game engine to various physics-based functions.
  * ---------------------------------------------------------------------------
  */
 
@@ -31,7 +31,7 @@ auk.Physics.motor = function () {
 	var x;
 	var y;
 	var g;
-	
+
 	if (this.controller.getState('up')) {
 		this.vector.add({x:0, y: -this.speed, z:0});
 	}
@@ -44,7 +44,11 @@ auk.Physics.motor = function () {
 	if (this.controller.getState('left')) {
 		this.vector.add({x: -this.speed, y:0, z:0});
 	}
-	this.vector.subtract({x: this.vector.x*p.friction, y: this.vector.y*p.friction, z:0});
+	this.vector.subtract({
+		x: this.vector.x*p.friction,
+		y: this.vector.y*p.friction,
+		z: 0
+	});
 	this.x += this.vector.x/100;
 	this.y += this.vector.y/100;
 	this.z += this.vector.z/100;
@@ -64,7 +68,7 @@ auk.Physics.motor = function () {
 		y < 7 ? t[x][y+1] : t[x][y],
 		(x < 14 && y < 7) ? t[x+1][y+1] : t[x][y]
 	)/2;
-	
+
 	if (g > this.z) {
 		this.x -= this.vector.x/100;
 		this.vector.x = 0;
@@ -99,21 +103,21 @@ auk.Physics.jump = function () {
 	var x = m.floor(this.x);
 	var y = m.floor(this.y);
 	var g;
-	
+
 	if (x < 0) {
 		x = 0;
 	}
 	if (y < 0) {
 		y = 0;
 	}
-	
+
 	g = m.max(
 		t[x][y],
 		x < 14 ? t[x+1][y] : t[x][y],
 		y < 7 ? t[x][y+1] : t[x][y],
 		(x < 14 && y < 7) ? t[x+1][y+1] : t[x][y]
 	)/2;
-	
+
 	if (this.controller.getState('jump') && this.z <= g) {
 		this.vector.add({x:0, y:0, z:this.jumpStrength});
 	} else if(this.z > g) {

@@ -1,5 +1,5 @@
-/*jshint immed:true latedef:true newcap:true strict:true globalstrict:true */
-"use strict"; var auk = auk || {};
+"use strict";
+var auk = auk || {};
 
 /**
  * Vector.js
@@ -176,7 +176,7 @@ auk.Vector._calcAngles = function (vector) {
 
 	// Skip everything if the vector's not dirty
 	if (vector.dirty === false) { return vector; }
-	
+
 	// Find the heading and ground speed
 	vector.groundSpeed = v.findHypo(vector.x, vector.y);
 	vector.heading = v.findAngle(vector.x, vector.y);
@@ -215,11 +215,18 @@ auk.Vector._calcAngles = function (vector) {
 auk.Vector.prototype.set = function (speed, heading, pitch, limit) {
 	var v = auk.Vector;
 	this.speed = (typeof speed === 'undefined' ? this.speed : speed);
-	this.heading = (typeof heading === 'undefined' ? this.heading : v.normalizeAngle(heading));
-	this.pitch = (typeof pitch === 'undefined' ? this.pitch : v.normalizeAngle(pitch, true));
 	this.limit = (typeof limit === 'undefined' ? this.limit : limit);
+
+	if (typeof heading !== 'undefined') {
+		this.heading = v.normalizeAngle(heading);
+	}
+
+	if (typeof pitch !== 'undefined') {
+		this.pitch = v.normalizeAngle(pitch, true);
+	}
+
 	v._calcComponents(this);
-	
+
 	// Enable chaining
 	return this;
 };
@@ -361,5 +368,13 @@ auk.Vector.prototype.subtract = function (vector) {
  *               properties, otherwise, an array is returned
  */
 auk.Vector.prototype.getComponents = function (object) {
-	return (object ? {x: this.x, y: this.y, z: this.z } : [this.x, this.y, this.z]);
+	return (object ? {
+		x: this.x,
+		y: this.y,
+		z: this.z
+	} : [
+		this.x,
+		this.y,
+		this.z
+	]);
 };
